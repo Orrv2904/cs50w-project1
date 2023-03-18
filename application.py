@@ -1,11 +1,17 @@
 import os
 
-from flask import Flask, session
+from flask import Flask, session, render_template, request, flash, redirect, url_for
 from flask_session import Session
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.orm import scoped_session, sessionmaker
+from dotenv import load_dotenv
+from flask import abort
+from psycopg2 import paramstyle
+
+load_dotenv()
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'mysecretkey'
 
 # Check for environment variable
 if not os.getenv("DATABASE_URL"):
