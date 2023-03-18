@@ -1,5 +1,6 @@
 import csv
 import os
+from colorama import init, Fore, Back, Style
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker, scoped_session
@@ -11,11 +12,15 @@ db = scoped_session(sessionmaker(bind=engine))
 def main():
     f = open("books.csv")
     reader = csv.reader(f)
-    for origin, destination, duration in reader:
-        consulta = text("INSERT INTO flights (origin, destination, duration) VALUES (:origin, :destination, :duration)")
-        db.execute(consulta, {"origin": origin, "destination": destination, "duration": duration})
-        print(consulta)
-        print("hola")
+    next(reader)
+    for isbn, title, author, year in reader:
+        try:
+            consulta = text("INSERT INTO books (isbn, title, author, year) VALUES (:isbn, :title, :author, :year)")
+            db.execute(consulta, {"isbn": isbn, "title": title, "author": author, "year": year})
+            print(consulta)
+            print(Fore.GREEN + "successful" + Style.RESET_ALL)
+        except Exception as e:
+            print(Fore.RED + "Error" + Style.RESET_ALL)
         
     db.commit()
     
