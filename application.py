@@ -42,12 +42,15 @@ def page_not_found(e):
 @app.route("/")
 def log():
     #return "Project 1: TODO"
-    return render_template("auth.html")
+    if session.get("user_id") is None:
+        return render_template("auth.html")
+    else:
+        return redirect("/books")
+    #return render_template("auth.html")
 
 @app.route("/books", methods=['GET','POST'])
 def books():
-    if request.methods == 'GET':
-        return render_template("index.html")
+    return render_template("index.html")
 
 
 @app.route('/Auth')
@@ -89,3 +92,30 @@ def register():
             print("Error: ", str(e))
             #flash("Ha ocurrido un error", "error")
             abort(404)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        lemail = request.form.get("email")
+        lpassword = request.form.get("password")
+    if not request.form.get("email") or not request.form.get("password"):
+        return redirect(url_for("auth"))
+    try:
+        seleccionar_usuario = text("SELECT * FROM users WHERE email=:email")
+        res = db.execute(seleccionar_usuario, {'email': lemail})
+        print(res)
+        user = res.fetchone()
+        print(user)
+        db.commit()
+        db.close()
+        if user and check_password_hash(user[3], lpassword):
+            session["user_id"] = user[0]
+            return redirect("/books")
+        else:
+            error = "Correo electrónico o contraseña incorrecta"
+            return render_template("auth.html", error=error)
+    except Exception as e:
+        db.rollback()
+        print("Error: ", str(e))
+        abort(404)
