@@ -90,9 +90,10 @@ def register():
             return redirect('/Auth')
         except Exception as e:
             db.rollback()
-            print("Error: ", str(e))
+            #print("Error: ", str(e))
             #flash("Ha ocurrido un error", "error")
-            abort(404)
+            #abort(404)
+            return redirect('/Auth')
 
 
 @app.route('/login', methods=['GET', 'POST'])
