@@ -11,7 +11,8 @@ $nrpt: no-repeat;
 $wd: 100%;
 $spacepd: 20px;
 $aut: auto;
-$mgtp: 100%;
+$mgtp: auto;
+$mgtp2: 25%;
 $mxwd: 800px;
 $rlt: relative;
 $dbpd: 10px 20px;
@@ -60,7 +61,8 @@ main{
     justify-content: $cntpost;
     -webkit-backdrop-filter: $blr;
     backdrop-filter: $blr;
-    background-color: $box-bck-color
+    background-color: $box-bck-color;
+    margin-top: $mgtp2;
 }
 
 .caja__trasera div{

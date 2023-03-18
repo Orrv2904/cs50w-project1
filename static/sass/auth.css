@@ -18,7 +18,7 @@ main {
   width: 100%;
   padding: 20px;
   margin: auto;
-  margin-top: 100%;
+  margin-top: auto;
 }
 
 .contenedor__todo {
@@ -36,6 +36,7 @@ main {
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   background-color: rgba(0, 128, 255, 0.5);
+  margin-top: 25%;
 }
 
 .caja__trasera div {

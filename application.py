@@ -8,7 +8,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from dotenv import load_dotenv
 from flask import abort
 from psycopg2 import paramstyle
-
+from helpers import login_required
 load_dotenv()
 
 app = Flask(__name__)
@@ -49,6 +49,7 @@ def log():
     #return render_template("auth.html")
 
 @app.route("/books", methods=['GET','POST'])
+@login_required
 def books():
     return render_template("index.html")
 
@@ -119,3 +120,13 @@ def login():
         db.rollback()
         print("Error: ", str(e))
         abort(404)
+
+
+@app.route("/logout", methods=['POST', 'GET'])
+@login_required
+def logout():
+    """Log user out"""
+    # Forget any user_id
+    session.clear()
+    # Redirect user to login form
+    return redirect("/")
