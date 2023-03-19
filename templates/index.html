@@ -65,6 +65,44 @@
         <h3 class="bienvenido">Bienvenido, {{ user_name }}</h3>
       {% endif %}
 
+      <!-- Buscador -->
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar" required>
+        <button class="btn btn-outline-dark" type="submit">Buscar</button>
+      </form>
+
+      <!-- resultado -->
+      <div class="container my-5">
+        <div class="row">
+          <div class="col-md-3">
+            <img src="book_cover.jpg" alt="Book Cover" class="img-fluid">
+          </div>
+          <div class="col-md-9">
+            <h2 class="fw-bold mb-4">Title of the Book</h2>
+            <div class="d-flex align-items-center mb-3">
+              <span class="text-muted me-2">Author:</span>
+              <span>Author Name</span>
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <span class="text-muted me-2">Publisher:</span>
+              <span>Publisher Name</span>
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <span class="text-muted me-2">Published Date:</span>
+              <span>January 1, 2022</span>
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <span class="text-muted me-2">ISBN:</span>
+              <span>1234567890</span>
+            </div>
+            <p class="lead mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce pretium risus vitae metus rhoncus euismod. Donec dapibus tellus vitae lorem congue maximus. Sed id sapien massa. Aenean eget lacinia urna. Praesent sit amet urna in sapien fermentum rhoncus. Morbi at est vel urna hendrerit auctor vitae vitae dolor. Donec auctor vitae purus ut suscipit.</p>
+            <a href="#" class="btn btn-primary">Buy Now</a>
+          </div>
+        </div>
+      </div>
+      
+      
+
     </div>
 
     <!-- bootstrap js -->
