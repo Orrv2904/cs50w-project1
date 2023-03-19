@@ -1,87 +1,45 @@
-@import url("https://fonts.cdnfonts.com/css/gotham");
 * {
   margin: 0;
   padding: 0;
-  outline: none;
-  border: none;
-  text-decoration: none;
   box-sizing: border-box;
-  font-family: "Gotham Black", sans-serif;
 }
 
 body {
-  background: #dfe9f5;
+  min-height: 100vh;
+  background-color: #fff;
 }
 
-.container {
-  display: flex;
+.side-navbar {
+  width: 180px;
+  height: 100%;
+  position: fixed;
+  margin-left: -300px;
+  background-color: #100901;
+  transition: 0.5s;
 }
 
-nav {
-  position: relative;
-  top: 0;
-  bottom: 0;
-  height: 100vh;
-  left: 0;
-  background: #fff;
-  width: 280px;
-  overflow: hidden;
-  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+.nav-link:active, .nav-link:focus, .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1490196078);
 }
 
-.logo {
-  text-align: center;
-  display: flex;
-  margin: 10px 0 0 10px;
+.my-container {
+  transition: 0.4s;
+}
+.my-container input {
+  border-radius: 2rem;
+  padding: 2px 20px;
 }
 
-.logo img {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
+.active-nav {
+  margin-left: 0;
 }
 
-.logo span {
-  font-weight: bold;
-  padding-left: 15px;
-  font-size: 18px;
-  text-transform: uppercase;
+.active-cont {
+  margin-left: 180px;
 }
 
-a {
-  position: relative;
-  color: rgb(85, 83, 83);
-  font-size: 14px;
-  display: table;
-  width: 280px;
-  padding: 10px;
-}
-
-nav .fas {
-  position: relative;
-  width: 70px;
-  height: 40px;
-  top: 14px;
-  font-size: 20px;
-  text-align: center;
-}
-
-.nav-item {
-  position: relative;
-  top: 12px;
-  margin-left: 10px;
-}
-
-a:hover {
-  background: #eee;
-}
-
-.logout {
-  position: absolute;
-  bottom: 10px;
-  left: 0;
-  right: 0;
-  margin: auto;
-  text-align: center;
-  cursor: pointer;
+#menu-btn {
+  background-color: #100901;
+  color: #fff;
+  margin-left: -62px;
 }/*# sourceMappingURL=index.css.map */

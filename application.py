@@ -51,7 +51,16 @@ def log():
 @app.route("/books", methods=['GET','POST'])
 @login_required
 def books():
-    return render_template("index.html")
+    if request.method == 'GET':
+        try:
+            user_id = session["user_id"]
+            user_name_query = text("SELECT name FROM users WHERE id = :user_id")
+            user_name = db.execute(user_name_query, {"user_id" :user_id}).fetchone()[0]
+            db.commit()
+            db.close()
+            return render_template("index.html", user_name=user_name)
+        except Exception as e:
+            return "Error fetching user data from database."
 
 
 @app.route('/Auth')

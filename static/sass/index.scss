@@ -1,93 +1,57 @@
-@import url('https://fonts.cdnfonts.com/css/gotham');
+$main-bg-color: #fff;
+$sidebar-width: 180px;
+$sidebar-bg-color: #100901;
+$sidebar-transition: 0.5s;
+$container-transition: 0.4s;
+$menu-btn-bg-color: #100901;
+$menu-btn-color: #fff;
 
-*{
-    margin: 0;
-    padding: 0;
-    outline: none;
-    border: none;
-    text-decoration: none;
-    box-sizing: border-box;
-    font-family: 'Gotham Black', sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-body{
-    background: #dfe9f5;
+body {
+  min-height: 100vh;
+  background-color: $main-bg-color;
 }
 
-.container{
-    display: flex;
+.side-navbar {
+  width: $sidebar-width;
+  height: 100%;
+  position: fixed;
+  margin-left: -300px;
+  background-color: $sidebar-bg-color;
+  transition: $sidebar-transition;
 }
 
-nav{
-    position: relative;
-    top: 0;
-    bottom: 0;
-    height: 100vh;
-    left: 0;
-    background: #fff;
-    width: 280px;
-    overflow: hidden;
-    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+.nav-link {
+  &:active, &:focus, &:hover {
+    background-color: #ffffff26;
+  }
 }
 
-.logo{
-    text-align: center;
-    display: flex;
-    margin: 10px 0 0 10px;
+.my-container {
+  transition: $container-transition;
+
+  input {
+    border-radius: 2rem;
+    padding: 2px 20px;
+  }
 }
 
-.logo img{
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
+.active-nav {
+  margin-left: 0;
 }
 
-.logo span{
-    font-weight: bold;
-    padding-left: 15px;
-    font-size: 18px;
-    text-transform: uppercase;
+.active-cont {
+  margin-left: $sidebar-width;
 }
 
-a{
-    position: relative;
-    color: rgb(85, 83, 83);
-    font-size: 14px;
-    display: table;
-    width: 280px;
-    padding: 10px;
+#menu-btn {
+  background-color: $menu-btn-bg-color;
+  color: $menu-btn-color;
+  margin-left: -62px;
 }
 
-nav .fas{
-    position: relative;
-    width: 70px;
-    height: 40px;
-    top: 14px;
-    font-size: 20px;
-    text-align: center;
-}
-
-.nav-item{
-    position: relative;
-    top: 12px;
-    margin-left: 10px;
-}
-
-a:hover{
-    background: #eee;
-}
-
-// .logout{
-//     position: absolute;
-//     bottom: 0;
-// }
-
-.logout {
-    position: absolute;
-    bottom: 10px;
-    left: 0;
-    right: 0;
-    margin: auto;
-    text-align: center;
-    cursor: pointer;
-}
