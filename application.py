@@ -69,6 +69,18 @@ def books():
 def Auth():  
     return render_template("auth.html")
 
+def validar_contraseña(password):
+    if len(password) < 10:
+        return "La contraseña debe tener al menos 10 caracteres"
+    if not any(char.isdigit() for char in password):
+        return "La contraseña debe contener al menos un número"
+    if not any(char.isalpha() for char in password):
+        return "La contraseña debe contener al menos una letra"
+    common_passwords = ["123456", "password", "123456789", "12345678", "12345"]
+    if password.lower() in common_passwords:
+        return "La contraseña es demasiado común"
+    return None
+
 @app.route('/register', methods=['POST'])
 def register():
     if request.method == 'POST':
