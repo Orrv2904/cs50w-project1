@@ -60,7 +60,9 @@ def books():
             db.close()
             return render_template("index.html", user_name=user_name)
         except Exception as e:
-            return "Error fetching user data from database."
+            db.rollback()
+            print("Error: ", str(e))
+            abort(404)
 
 
 @app.route('/Auth')
@@ -124,7 +126,7 @@ def login():
             session["user_id"] = user[0]
             return redirect("/books")
         else:
-            error = "Correo electrónico o contraseña incorrecta"
+            error = "Correo electrónico o contraseña incorrecta, favor verifique sus datos"
             return render_template("auth.html", error=error)
     except Exception as e:
         db.rollback()

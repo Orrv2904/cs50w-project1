@@ -45,7 +45,11 @@
       <ul class="nav flex-column text-white w-100">
         <li href="#" class="nav-link">
           <i class="fa-solid fa-sign-out"></i>
-            <span class="mx-2">Logout</span>
+          <form method="POST" action="/logout">
+            <button type="submit" class="btn btn-primary btn-logout">
+                Cerrar Sesion
+            </button>
+        </form>
           </li>
       </ul>
     </div>
@@ -58,7 +62,7 @@
       </nav>
       <!--End Top Nav -->
       {% if user_name %}
-        <h3>Bienvenido {{ user_name }}</h3>
+        <h3 class="bienvenido">Bienvenido, {{ user_name }}</h3>
       {% endif %}
 
     </div>

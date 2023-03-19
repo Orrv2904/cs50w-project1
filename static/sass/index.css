@@ -42,4 +42,24 @@ body {
   background-color: #100901;
   color: #fff;
   margin-left: -62px;
+}
+
+.bienvenido {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.btn-primary {
+  background-color: white;
+  border-color: white;
+  color: black;
+}
+
+.btn-primary:hover {
+  background-color: black;
+  border-color: white;
+  color: white;
 }/*# sourceMappingURL=index.css.map */
