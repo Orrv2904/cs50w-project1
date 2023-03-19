@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask, session, render_template, request, flash, redirect, url_for
+import requests
 from flask_session import Session
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import create_engine, text
@@ -154,3 +155,24 @@ def logout():
     session.clear()
     # Redirect user to login form
     return redirect("/")
+
+def get_books(search_term):
+    api_key = os.getenv('GOOGLE_BOOKS_API_KEY')
+    url = f'https://www.googleapis.com/books/v1/volumes?q={search_term}&key={api_key}'
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        search_results = []
+        for item in data['items']:
+            book = {
+                'title': item['volumeInfo']['title'],
+                'author': ', '.join(item['volumeInfo']['authors']),
+                'publisher': item['volumeInfo'].get('publisher', ''),
+                'published_date': item['volumeInfo'].get('publishedDate', ''),
+                'description': item['volumeInfo'].get('description', ''),
+                'thumbnail': item['volumeInfo']['imageLinks'].get('thumbnail', '')
+            }
+            search_results.append(book)
+        return search_results
+    else:
+        return []
