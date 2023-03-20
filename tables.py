@@ -8,7 +8,7 @@ class Books(db.Model):
     isbn = db.Column(db.String, nullable=False)
     title = db.Column(db.String, nullable=False)
     author = db.Column(db.String, nullable=False)
-    year = db.Column(db.Integer, nullable=False)
+    year = db.Column(db.String, nullable=False)
 
 
 class Users(db.Model):

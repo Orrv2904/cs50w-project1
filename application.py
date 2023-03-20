@@ -66,14 +66,12 @@ def books():
     elif request.method == "POST":
         search_term = request.form["search_term"]
         book_query = text("SELECT * FROM books WHERE isbn = :search_term OR title LIKE :search_term OR author LIKE :search_term OR year = :search_term")
-        book = db.execute(book_query, {"search_term": search_term}).fetchone()
+        book = db.execute(book_query, {"search_term": search_term}).fetchall()
         if book:
-            # Book found in database, use database information
             book_info = {
                 "isbn": book.isbn,
                 "title": book.title,
                 "author": book.author,
-                "publisher": book.publisher,
                 "year": book.year,
                 "published_date": book.published_date,
                 "description": book.description,
@@ -83,7 +81,6 @@ def books():
             }
             return render_template("book.html", book=book_info)
         else:
-            # Book not found in database, use Google Books API
             api_key = os.getenv("GOOGLE_BOOKS_API_KEY")
             url = f"https://www.googleapis.com/books/v1/volumes?q={search_term}&key={api_key}"
             response = requests.get(url)
@@ -101,10 +98,11 @@ def books():
                     "isbn": book.isbn if book else book_data["industryIdentifiers"][0].get("identifier", ""),
                     "buy_link": book.buy_link if book else book_data.get("buyLink", "")
                 }
-                return render_template("book.html", book=book_info)
+                #return render_template("/books", book=book_info)
+                return redirect('/books', book=book_info)
             else:
                 flash(f"No books found for search term '{search_term}'")
-                return redirect(url_for("books")) # Redirect to the search page if no books were found.
+                return redirect('/books')
 
 
 
