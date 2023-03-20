@@ -91,23 +91,21 @@ def books():
                 data = response.json()
                 if "items" in data:
                     book_data = data["items"][0]["volumeInfo"]
-                    book_info = {
-                        "title": book.title if book else book_data.get("title", ""),
-                        "author": book.author if book else ", ".join(book_data.get("authors", [])),
-                        "publisher": book.publisher if book else book_data.get("publisher", ""),
-                        "published_date": book.published_date if book else book_data.get("publishedDate", ""),
-                        "description": book.description if book else book_data.get("description", ""),
-                        "thumbnail": book.thumbnail if book else book_data["imageLinks"].get("thumbnail", ""),
-                        "isbn": book.isbn if book else book_data["industryIdentifiers"][0].get("identifier", ""),
-                        "buy_link": book.buy_link if book else book_data.get("buyLink", "")
-                    }
-                    return render_template("book.html", book=book_info)
-                else:
-                    flash(f"No books found for search term '{search_term}'")
-                    return redirect(url_for("books")) # Redirect to the search page if no books were found.
+                book_info = {
+                    "title": book.title if book else book_data.get("title", ""),
+                    "author": book.author if book else ", ".join(book_data.get("authors", [])),
+                    "publisher": book.publisher_name if book else book_data.get("publisher", ""),
+                    "published_date": book.published_date if book else book_data.get("publishedDate", ""),
+                    "description": book.description if book else book_data.get("description", ""),
+                    "thumbnail": book.thumbnail if book else book_data["imageLinks"].get("thumbnail", ""),
+                    "isbn": book.isbn if book else book_data["industryIdentifiers"][0].get("identifier", ""),
+                    "buy_link": book.buy_link if book else book_data.get("buyLink", "")
+                }
+                return render_template("book.html", book=book_info)
             else:
-                flash(f"Error retrieving books for search term '{search_term}'. Please try again later.")
-                return redirect(url_for("books")) # Redirect to the search page if there was an error with the API.
+                flash(f"No books found for search term '{search_term}'")
+                return redirect(url_for("books")) # Redirect to the search page if no books were found.
+
 
 
 
