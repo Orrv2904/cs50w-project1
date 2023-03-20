@@ -67,17 +67,16 @@
 
 <!-- Buscador -->
 <form class="d-flex" action="/books" method="POST">
-  <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar" required name="search_term">
+  <input class="form-control me-2" type="search" placeholder="Buscar por ISBN, Autor, Titulo o Año" aria-label="Buscar" required name="search_term">
   <button class="btn btn-outline-dark" type="submit">Buscar</button>
 </form>
-
 <!-- resultado -->
 <div class="container my-5">
   {% if books %}
       {% for book in books %}
           <div class="row">
               <div class="col-md-3">
-                  <img src="{{ book['image_url'] }}" alt="Book Cover" class="img-fluid">
+                  <img src="{{ book['thumbnail'] }}" alt="Book Cover" class="img-fluid">
               </div>
               <div class="col-md-9">
                   <h2 class="fw-bold mb-4">{{ book['title'] }}</h2>
@@ -105,6 +104,7 @@
       <p>No books found.</p>
   {% endif %}
 </div>
+
 
 
       
