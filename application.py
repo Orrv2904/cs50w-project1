@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, session, render_template, request, flash, redirect, url_for
+from flask import Flask, session, render_template, request, flash, redirect, url_for, jsonify, get_flashed_messages
 import requests
 from flask_session import Session
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -64,42 +64,26 @@ def books():
             print("Error: ", str(e))
             abort(404)
     elif request.method == "POST":
-        search_term = request.form["search_term"]
-        book_query = text("SELECT * FROM books WHERE isbn = :search_term OR title LIKE :search_term OR author LIKE :search_term OR year = :search_term")
-        book = db.execute(book_query, {"search_term": search_term}).fetchone()
-        book_info = {}
-        if book:
-            book_data = {}
-            try:
-                response = requests.get(f"https://www.googleapis.com/books/v1/volumes?q={search_term}&key={os.getenv('GOOGLE_BOOKS_API_KEY')}")
-                data = response.json()
-                book_data = data["items"][0]["volumeInfo"]
-            except Exception as e:
-                print("Error: ", str(e))
-            book_info = {
-                "title": book.title,
-                "author": book.author,
-                "publisher": book.publisher_name,
-                "published_date": book.published_date,
-                "description": book.description,
-                "thumbnail": book.thumbnail,
-                "isbn": book.isbn,
-                "buy_link": book.buy_link
-            }
-            book_info.update({
-                "title": book.title if book else book_data.get("title", ""),
-                "author": book.author if book else ", ".join(book_data.get("authors", [])),
-                "publisher": book.publisher_name if book else book_data.get("publisher", ""),
-                "published_date": book.published_date if book else book_data.get("publishedDate", ""),
-                "description": book.description if book else book_data.get("description", ""),
-                "thumbnail": book.thumbnail if book else book_data["imageLinks"].get("thumbnail", ""),
-                "isbn": book.isbn if book else book_data["industryIdentifiers"][0].get("identifier", ""),
-                "buy_link": book.buy_link if book else book_data.get("buyLink", "")
-            })
-            return jsonify(book_info)
-        else:
-            flash("El libro no fue encontrado.")
-            return redirect(url_for("books"))
+        try:
+            search_term = request.form["search_term"]
+            if not search_term:
+                flash("Por favor ingrese todos los campos", "info")
+                return redirect('/books')
+            book_query = text("SELECT * FROM books WHERE isbn = :search_term OR title LIKE :search_term OR author LIKE :search_term OR year = :search_term")
+            books = db.execute(book_query, {"search_term": f"%{search_term}%"}).fetchall()
+            if books:
+                return render_template("index.html", books=books)
+            else:
+                flash("El libro no fue encontrado", "error")
+                return redirect('/books')
+        except Exception as e:
+            db.rollback()
+            print("Error: ", str(e))
+            abort(404)
+
+
+
+
 
 
 
