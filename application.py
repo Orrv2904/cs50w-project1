@@ -95,14 +95,19 @@ def books():
                         "year": book[4]
                     }
                     libros.append(book)
-                return render_template("index.html", books=libros)
+                user_id = session["user_id"]
+                user_name_query = text("SELECT name FROM users WHERE id = :user_id")
+                user_name2 = db.execute(user_name_query, {"user_id": user_id}).fetchone()[0]
+                db.commit()
+                return render_template("index.html", books=libros, user_name2=user_name2)
             else:
                 flash("El libro no fue encontrado", "error")
-                return render_template("index.html")
+                return render_template("index.html", user_name2=user_name2)
         except Exception as e:
             db.rollback()
             print("Error: ", str(e))
             abort(404)
+
 
 
 

@@ -67,6 +67,9 @@
       {% if user_name %}
         <h3 class="bienvenido">Bienvenido, {{ user_name }}</h3>
       {% endif %}
+      {% if user_name2 %}
+        <h3 class="bienvenido">Estos son los resultados de su busqueda, {{ user_name2 }}</h3>
+      {% endif %}
 
 <!-- Buscador -->
 <form class="d-flex" action="/books" method="POST">
@@ -95,7 +98,9 @@
             <span class="text-muted me-2">Year:</span>
             <span>{{ book['year'] }}</span>
           </div>
-          <p class="lead mb-4">{{ book['description'] }}</p>
+          <div class="d-flex align-items-center mb-3">
+            <p class="lead mb-4">{{ book['description'] }}</p>
+          </div>
           <button class="btn btn-primary rate-btn">Valorar libro</button>
         </div>
       </div>
