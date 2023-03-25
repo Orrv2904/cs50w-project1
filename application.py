@@ -64,6 +64,7 @@ def books():
             print("Error: ", str(e))
             abort(404)
     elif request.method == "POST":
+        libros = []
         try:
             search_term = request.form["search_term"]
             if not search_term:
@@ -73,10 +74,20 @@ def books():
             books = db.execute(book_query, {"search_term": f"%{search_term}%"}).fetchall()
             if books:
                 api = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:"+books[0][1]).json()
-                book_img = api["items"][0]["volumeInfo"]["imageLinks"]["thumbnail"]
+                #book_img = api["items"][0]["volumeInfo"]["imageLinks"]["thumbnail"]
+                for book in books:
+                    book_img = api["items"][0]["volumeInfo"]["imageLinks"]["thumbnail"]
+                    book = {
+                        "image_link" : book_img,
+                        "title": book[2], 
+                        "author": book[3],
+                        "isbn": book[1],
+                        "year": book[4] 
+                        }
+                    libros.append(book)
                 print(book_img)
                 print("hola")
-                return render_template("index.html", books=books)
+                return render_template("index.html", books=libros)
             else:
                 print("hola")
                 flash("El libro no fue encontrado", "error")
