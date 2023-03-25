@@ -71,12 +71,11 @@ def books():
                 return redirect('/books')
             book_query = text("SELECT * FROM books WHERE isbn = :search_term OR title LIKE :search_term OR author LIKE :search_term OR year = :search_term")
             books = db.execute(book_query, {"search_term": f"%{search_term}%"}).fetchall()
-            api = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:"+books[0][1]).json()
-            print(api)
-            book_img = api["items"][0]["volumeInfo"]["imageLinks"]["thumbnail"]
-            books["thumbnail"] = book_img
-            print(book_img)
             if books:
+                api = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:"+books[0][1]).json()
+                book_img = api["items"][0]["volumeInfo"]["imageLinks"]["thumbnail"]
+                print(book_img)
+                print("hola")
                 return render_template("index.html", books=books)
             else:
                 print("hola")
@@ -86,6 +85,11 @@ def books():
             db.rollback()
             print("Error: ", str(e))
             abort(404)
+
+
+
+
+
 
 
 
