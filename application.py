@@ -76,11 +76,19 @@ def books():
                 for book in books:
                     api = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:" + book[1]).json()
                     if "items" in api:
-                        book_img = api["items"][0]["volumeInfo"]["imageLinks"]["thumbnail"]
+                        for item in api["items"]:
+                            book_info = item.get("volumeInfo")
+                            if book_info:
+                                book_description = book_info.get("description")
+                                if book_description:
+                                    break
+                        book_img = book_info.get("imageLinks", {}).get("thumbnail")
                     else:
                         book_img = None
+                        book_description = None
                     book = {
                         "image_link": book_img,
+                        "description": book_description,
                         "title": book[2],
                         "author": book[3],
                         "isbn": book[1],
@@ -95,6 +103,7 @@ def books():
             db.rollback()
             print("Error: ", str(e))
             abort(404)
+
 
 
 

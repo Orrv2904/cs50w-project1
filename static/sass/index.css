@@ -62,4 +62,13 @@ body {
   background-color: black;
   border-color: white;
   color: white;
+}
+
+p.lead {
+  text-transform: capitalize;
+  font-size: 18px;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 20px;
 }/*# sourceMappingURL=index.css.map */
