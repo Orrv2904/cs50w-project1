@@ -73,29 +73,29 @@ def books():
             book_query = text("SELECT * FROM books WHERE isbn = :search_term OR title LIKE :search_term OR author LIKE :search_term OR year = :search_term")
             books = db.execute(book_query, {"search_term": f"%{search_term}%"}).fetchall()
             if books:
-                api = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:"+books[0][1]).json()
-                #book_img = api["items"][0]["volumeInfo"]["imageLinks"]["thumbnail"]
                 for book in books:
-                    book_img = api["items"][0]["volumeInfo"]["imageLinks"]["thumbnail"]
+                    api = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:" + book[1]).json()
+                    if "items" in api:
+                        book_img = api["items"][0]["volumeInfo"]["imageLinks"]["thumbnail"]
+                    else:
+                        book_img = None
                     book = {
-                        "image_link" : book_img,
-                        "title": book[2], 
+                        "image_link": book_img,
+                        "title": book[2],
                         "author": book[3],
                         "isbn": book[1],
-                        "year": book[4] 
-                        }
+                        "year": book[4]
+                    }
                     libros.append(book)
-                print(book_img)
-                print("hola")
                 return render_template("index.html", books=libros)
             else:
-                print("hola")
                 flash("El libro no fue encontrado", "error")
                 return render_template("index.html")
         except Exception as e:
             db.rollback()
             print("Error: ", str(e))
             abort(404)
+
 
 
 
