@@ -96,9 +96,7 @@
             <span>{{ book['year'] }}</span>
           </div>
           <p class="lead mb-4">{{ book['description'] }}</p>
-          {% if book.buy_link %}
-            <a href="{{ book.buy_link }}" class="btn btn-primary">Buy on Google Books</a>
-          {% endif %}
+          <button class="btn btn-primary rate-btn">Valorar libro</button>
         </div>
       </div>
       <hr>

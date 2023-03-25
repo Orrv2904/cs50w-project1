@@ -83,3 +83,29 @@ p.lead {
   padding: 10px;
   margin-bottom: 20px;
 }
+
+.rate-btn {
+  background-color: #000;
+  border-color: #000;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  border-radius: 4px;
+  transition: all 0.3s ease-in-out;
+
+  &:hover,
+  &:focus {
+    background-color: #333;
+    border-color: #333;
+    color: #fff;
+  }
+
+  &:active {
+    background-color: #333;
+    border-color: #333;
+    color: #fff;
+    box-shadow: none;
+  }
+}
