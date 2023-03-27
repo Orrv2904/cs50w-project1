@@ -110,7 +110,10 @@ def books():
             abort(404)
 
 
-
+@app.route('/review', methods=["GET", "POST"])
+def review():
+    if request.method == "GET":
+        return render_template("review.html")
 
 
 

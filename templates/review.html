@@ -21,6 +21,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"/>
     <!-- custom css -->
     <link rel="stylesheet" href="../static/sass/index.css" />
+    <link rel="stylesheet" href="../static/sass/review.css">
+    <!-- Enlace a la hoja de estilos de Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Enlace a la fuente de iconos de Bootstrap -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-Q/LFrLTc+J1D+Nj+OxnwOSOgmJ1xg36pxXUGug+wI7+GthDzgT+VlTJxB8T6w2UZ58sU6bu9Jvz8U6m+1gRcEw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
   </head>
 
   <body>
@@ -94,11 +101,49 @@
                 <p class="card-text">Excelente libro, lo recomiendo ampliamente.</p>
               </div>
             </div>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addReviewModal">Agregar reseña</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Añadir reseña
+            </button>
           </div>
         </div>
       </div>
 </section>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Añadir reseña</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="isbn" class="form-label">ISBN</label>
+            <input type="text" class="form-control" id="isbn">
+          </div>
+          <div class="mb-3">
+            <label for="stars" class="form-label">Puntuación</label>
+            <div id="stars" class="btn-group" role="group" aria-label="Puntuación">
+                <button type="button" class="btn btn-outline-secondary"><i class="bi bi-star"></i></button>
+                <button type="button" class="btn btn-outline-secondary"><i class="bi bi-star"></i></button>
+                <button type="button" class="btn btn-outline-secondary"><i class="bi bi-star"></i></button>
+                <button type="button" class="btn btn-outline-secondary"><i class="bi bi-star"></i></button>
+                <button type="button" class="btn btn-outline-secondary"><i class="bi bi-star"></i></button>
+              </div>              
+          </div>
+          <div class="mb-3">
+            <label for="comment" class="form-label">Comentario</label>
+            <textarea class="form-control" id="comment" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary">Guardar reseña</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </main>
 

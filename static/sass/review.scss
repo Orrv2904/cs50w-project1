@@ -1,0 +1,15 @@
+#stars .btn i.bi-star::before {
+    content: "\f005";
+  }
+  
+  #stars .btn:not(:checked) i.bi-star::before {
+    content: "\f006";
+  }
+  
+  #stars .btn:hover i.bi-star::before,
+  #stars .btn:focus i.bi-star::before,
+  #stars .btn:checked i.bi-star::before {
+    content: "\f005";
+    color: #ffc107;
+  }
+  
