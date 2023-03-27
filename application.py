@@ -67,6 +67,7 @@ def books():
         libros = []
         try:
             search_term = request.form["search_term"]
+            search_term = "%" + search_term + "%"
             if not search_term:
                 flash("Por favor ingrese todos los campos", "info")
                 return redirect('/books')
