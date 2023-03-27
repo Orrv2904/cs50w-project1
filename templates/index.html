@@ -101,7 +101,10 @@
           <div class="d-flex align-items-center mb-3">
             <p class="lead mb-4">{{ book['description'] }}</p>
           </div>
-          <button class="btn btn-primary rate-btn">Valorar libro</button>
+          <form action="/book_details/{{ book['isbn'] }}" method="POST">
+            <input type="hidden" name="isbn" value="{{ book['isbn'] }}">
+            <button type="submit" class="btn btn-primary rate-btn">Valorar libro</button>
+          </form>
         </div>
       </div>
       <hr>

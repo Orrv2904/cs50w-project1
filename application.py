@@ -67,7 +67,8 @@ def books():
         libros = []
         try:
             search_term = request.form["search_term"]
-            search_term = "%" + search_term + "%"
+            search_term = "%" + search_term+ "%"
+            print(search_term)
             if not search_term:
                 flash("Por favor ingrese todos los campos", "info")
                 return redirect('/books')
@@ -116,10 +117,24 @@ def review():
         return render_template("review.html")
 
 
+@app.route('/book_details/<string:isbn>', methods=["GET", "POST"])
+@login_required
+def book_details(isbn):
+    if request.method == "POST":
+        try:
+            print(isbn)
+            # isbn = request.form["isbn"]
+            # isbn = "%" + isbn "%"
+            return render_template("review.html")
+           
+        except Exception as e:
+            db.rollback()
+            print("Error: ", str(e))
+            abort(404)
 
+        
 
-
-
+    
 
 
 @app.route('/flasherror')
