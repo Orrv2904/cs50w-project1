@@ -132,13 +132,17 @@ def book_details(isbn):
                 book_title = book_info.get("title", "Título no disponible.")
                 book_author = book_info.get("authors", ["Autor no disponible."])[0]
                 book_year = book_info.get("publishedDate", "Año de publicación no disponible.")
-                
+                book_rating = book_info.get("averageRating", 0)
+                book_rating_count = book_info.get("ratingsCount", 0)
+                print(api_url) 
                 return render_template("review.html",
                                        book_title=book_title,
                                        book_author=book_author,
                                        book_year=book_year,
                                        book_description=book_description,
                                        book_img=book_img,
+                                       book_rating=book_rating,
+                                       book_rating_count=book_rating_count,
                                        isbn=isbn)
             else:
                 flash("El libro no fue encontrado", "error")
