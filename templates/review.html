@@ -85,14 +85,17 @@
     <div class="container my-5">
         <div class="row">
           <div class="col-lg-4">
-            <img src="https://via.placeholder.com/250x350" alt="Book cover" class="img-fluid">
+            <img src="{{ book_img }}" alt="Book cover" class="img-fluid custom-img">
           </div>
           <div class="col-lg-8">
-            <h1 class="fw-bold mb-3">title</h1>
-            <h3 class="text-secondary mb-3">Autor del libro</h3>
-            <p class="fw-light mb-3">Año de publicación: 2022</p>
-            <p class="fw-light mb-3">ISBN: 1234567890</p>
-            <p class="fw-light mb-3">Descripción del libro: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed lectus ut tortor faucibus elementum.</p>
+            <h1 class="fw-bold mb-3">{{ book_title }}</h1>
+            <h3 class="text-secondary mb-3">Autor del libro: {{ book_author }}</h3>
+            <p class="fw-light mb-3">Año de publicación: {{ book_year }}</p>
+            <p class="fw-light mb-3">ISBN: {{ isbn }}</p>
+            <p class="fw-light mb-3">Descripción del libro: {{ book_description }}</p>                        
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              Añadir reseña
+            </button>
             <h4 class="mb-3">Reseñas de usuarios</h4>
             <div class="card mb-3">
               <div class="card-body">
@@ -101,9 +104,6 @@
                 <p class="card-text">Excelente libro, lo recomiendo ampliamente.</p>
               </div>
             </div>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Añadir reseña
-            </button>
           </div>
         </div>
       </div>

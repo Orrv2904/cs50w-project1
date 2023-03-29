@@ -86,7 +86,7 @@ def books():
                                     break
                         book_img = book_info.get("imageLinks", {}).get("thumbnail")
                     else:
-                        book_img = None
+                        book_img = "https://via.placeholder.com/128x196"
                         book_description = None
                     book = {
                         "image_link": book_img,
@@ -111,6 +111,7 @@ def books():
             abort(404)
 
 
+
 @app.route('/review', methods=["GET", "POST"])
 def review():
     if request.method == "GET":
@@ -122,15 +123,32 @@ def review():
 def book_details(isbn):
     if request.method == "POST":
         try:
-            print(isbn)
-            # isbn = request.form["isbn"]
-            # isbn = "%" + isbn "%"
-            return render_template("review.html")
-           
+            api_url = f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}"
+            api_response = requests.get(api_url)
+            if api_response.status_code == 200:
+                book_info = api_response.json()["items"][0]["volumeInfo"]
+                book_description = book_info.get("description", "Descripción no disponible.")
+                book_img = book_info.get("imageLinks", {}).get("thumbnail", "/static/images/128x196.png")
+                book_title = book_info.get("title", "Título no disponible.")
+                book_author = book_info.get("authors", ["Autor no disponible."])[0]
+                book_year = book_info.get("publishedDate", "Año de publicación no disponible.")
+                
+                return render_template("review.html",
+                                       book_title=book_title,
+                                       book_author=book_author,
+                                       book_year=book_year,
+                                       book_description=book_description,
+                                       book_img=book_img,
+                                       isbn=isbn)
+            else:
+                flash("El libro no fue encontrado", "error")
+                return redirect(url_for('index'))
         except Exception as e:
-            db.rollback()
             print("Error: ", str(e))
-            abort(404)
+            flash("Ocurrió un error al procesar su solicitud. Por favor inténtelo de nuevo más tarde.", "error")
+            return redirect(url_for('index'))
+    else:
+        return render_template("review.html")
 
         
 

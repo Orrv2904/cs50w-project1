@@ -11,4 +11,8 @@
 #stars .btn:checked i.bi-star::before {
   content: "\f005";
   color: #ffc107;
+}
+
+.custom-img {
+  width: 500px;
 }/*# sourceMappingURL=review.css.map */
