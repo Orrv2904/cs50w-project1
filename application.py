@@ -86,7 +86,7 @@ def books():
                                     break
                         book_img = book_info.get("imageLinks", {}).get("thumbnail")
                     else:
-                        book_img2 = "https://via.placeholder.com/128x196"
+                        book_img = "https://via.placeholder.com/128x196"
                         book_description = None
                     book = {
                         "image_link": book_img,
@@ -134,7 +134,6 @@ def book_details(isbn):
                 book_year = book_info.get("publishedDate", "Año de publicación no disponible.")
                 book_rating = book_info.get("averageRating", 0)
                 book_rating_count = book_info.get("ratingsCount", 0)
-                print(api_url) 
                 return render_template("review.html",
                                        book_title=book_title,
                                        book_author=book_author,
@@ -152,7 +151,41 @@ def book_details(isbn):
             flash("Ocurrió un error al procesar su solicitud. Por favor inténtelo de nuevo más tarde.", "error")
             return redirect(url_for('index'))
     else:
-        return render_template("review.html")
+        # return render_template("review.html")
+        print("prueba")
+        try:
+            review_data = text("SELECT r.score, r.comment, u.name FROM review r JOIN users u ON r.user_id = u.id WHERE r.isbn = :isbn")
+            review_data = db.execute(review_data, {"isbn": isbn}).fetchall()
+            
+            api_url = f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}"
+            api_response = requests.get(api_url)
+            if api_response.status_code == 200:
+                book_info = api_response.json()["items"][0]["volumeInfo"]
+                book_description = book_info.get("description", "Descripción no disponible.")
+                book_img = book_info.get("imageLinks", {}).get("thumbnail", "/static/images/128x196.png")
+                book_title = book_info.get("title", "Título no disponible.")
+                book_author = book_info.get("authors", ["Autor no disponible."])[0]
+                book_year = book_info.get("publishedDate", "Año de publicación no disponible.")
+                book_rating = book_info.get("averageRating", 0)
+                book_rating_count = book_info.get("ratingsCount", 0)
+                return render_template("review.html",
+                                       book_title=book_title,
+                                       book_author=book_author,
+                                       book_year=book_year,
+                                       book_description=book_description,
+                                       book_img=book_img,
+                                       book_rating=book_rating,
+                                       book_rating_count=book_rating_count,
+                                       isbn=isbn,
+                                       review_data=review_data)
+            else:
+                flash("El libro no fue encontrado", "error")
+                return redirect(url_for('index'))
+        except Exception as e:
+            print("Error: ", str(e))
+            flash("Ocurrió un error al procesar su solicitud. Por favor inténtelo de nuevo más tarde.", "error")
+            return redirect(url_for('index'))
+            # return redirect(url_for(f'book_details/{isbn}'))
 
         
 @app.route('/create_review', methods=["POST", "GET"])
@@ -170,18 +203,20 @@ def create_review():
         if review:
             error = "Ya has creado una review para este libro"
             print(error)
-            return render_template('/book_details', error=error)
+            return redirect(f'/book_details/{risbn}')
 
         if not risbn or not rraiting or not rcomment:
             error = "Complete los campos faltantes"
             return render_template('/book_details/<string:isbn>', error=error)
 
         try:
+            
             createreview = text("INSERT INTO review (user_id, isbn, score, comment) VALUES (:user_id, :risbn, :rraiting, :rcomment)")
             db.execute(createreview, {"user_id" :user_id, "risbn" :risbn, "rraiting" :rraiting, "rcomment" :rcomment})
             db.commit()
             db.close()
             flash("Review creada correctamente", "success")
+            return redirect(f'/book_details/{risbn}')
         except Exception as e:
             db.rollback()
             print("Error: ", str(e))
@@ -199,13 +234,13 @@ def review_data():
     if request.method == "GET":
         try:
             review_data = text("SELECT r.score, r.comment, u.name FROM review r JOIN users u ON r.user_id = u.id WHERE r.isbn = :isbn")
-            review_data = db.execute(review_data, {"isbn": isbn}).fetchall()
+            review_data = db.execute(review_data, {"isbn": j}).fetchall()
             print(review_data)
             db.commit()
             return render_template("/book_details/<string:isbn>", review_data=review_data)
         except Exception as e:
             db.rollback()
-            print("Error: ", str(e))
+            print("Error: ", str(e))    
             abort(404)
 
 
