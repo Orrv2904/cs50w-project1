@@ -110,15 +110,25 @@
           <h4 class="mb-3">Reseñas de usuarios</h4>
           <div class="card mb-3">
             {% if review_data %}
-              {% for data in review_data %}
-                <div class="card mb-3">
-                  <div class="card-body">
-                    <h5 class="card-title">{{ data.name }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{ data.score }} estrellas</h6>
-                    <p class="card-text">{{ data.comment }}</p>
-                  </div>
-                </div>
-              {% endfor %}
+            {% for data in review_data %}
+            <div class="card mb-3">
+              <div class="card-body">
+                <h5 class="card-title">{{ data.name }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">
+                  {% for i in range(1, 6) %}
+                    {% if data.score >= i %}
+                      <i class="fas fa-star"></i>
+                    {% else %}
+                      <i class="far fa-star"></i>
+                    {% endif %}
+                  {% endfor %}
+                  {{ data.score }} estrellas
+                </h6>
+                <p class="card-text">{{ data.comment }}</p>
+              </div>
+            </div>
+          {% endfor %}
+          
             {% else %}
               <p>No hay datos disponibles.</p>
             {% endif %}
@@ -167,6 +177,33 @@
           <button type="submit" class="btn btn-primary">Guardar reseña</button>
         </div>
       </form>
+      {% with messages = get_flashed_messages(with_categories=True) %}
+{% if messages %}
+    {% for category, message in messages %}
+        {% if category == 'error' %}
+            <script>
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    text: "{{message}}",
+                    showConfirmButton: true,
+                    timer: 5000
+                })
+            </script>
+        {% else %}
+            <script>
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    text: "{{message}}",
+                    showConfirmButton: true,
+                    timer: 5000
+                })
+            </script>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+{% endwith %}
     </div>
   </div>
 </div>

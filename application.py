@@ -123,6 +123,8 @@ def review():
 def book_details(isbn):
     if request.method == "POST":
         try:
+            review_data_query = text("SELECT r.score, r.comment, u.name, AVG(r.score) as avg_score, COUNT(r.score) as review_count FROM review r JOIN users u ON r.user_id = u.id WHERE r.isbn = :isbn GROUP BY r.score, r.comment, u.name")
+            review_data = db.execute(review_data_query, {"isbn": isbn}).fetchall()
             api_url = f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}"
             api_response = requests.get(api_url)
             if api_response.status_code == 200:
@@ -142,7 +144,8 @@ def book_details(isbn):
                                        book_img=book_img,
                                        book_rating=book_rating,
                                        book_rating_count=book_rating_count,
-                                       isbn=isbn)
+                                       isbn=isbn,
+                                       review_data=review_data)
             else:
                 flash("El libro no fue encontrado", "error")
                 return redirect(url_for('index'))
@@ -154,8 +157,8 @@ def book_details(isbn):
         # return render_template("review.html")
         print("prueba")
         try:
-            review_data = text("SELECT r.score, r.comment, u.name FROM review r JOIN users u ON r.user_id = u.id WHERE r.isbn = :isbn")
-            review_data = db.execute(review_data, {"isbn": isbn}).fetchall()
+            review_data_query = text("SELECT r.score, r.comment, u.name, AVG(r.score) as avg_score, COUNT(r.score) as review_count FROM review r JOIN users u ON r.user_id = u.id WHERE r.isbn = :isbn GROUP BY r.score, r.comment, u.name")
+            review_data = db.execute(review_data_query, {"isbn": isbn}).fetchall()
             
             api_url = f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}"
             api_response = requests.get(api_url)
@@ -202,6 +205,7 @@ def create_review():
 
         if review:
             error = "Ya has creado una review para este libro"
+            flash("Ya has creado una review para este libro", "error")
             print(error)
             return redirect(f'/book_details/{risbn}')
 
@@ -292,6 +296,7 @@ def register():
 
             if user_exists or email_exists:
                 flash("El usuario o el correo electrónico ya existe", "error")
+                print(flash)
                 return render_template("/Auth")
             
             agregar_usuario = text("INSERT INTO users (name, email, password) VALUES (:rname, :remail, :hashed_password)")
