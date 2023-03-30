@@ -67,7 +67,7 @@ def books():
         libros = []
         try:
             search_term = request.form["search_term"]
-            search_term = "%" + search_term.title() + "%"
+            search_term = search_term.title()
             print(search_term)
             if not search_term:
                 flash("Por favor ingrese todos los campos", "info")
@@ -155,7 +155,31 @@ def book_details(isbn):
         return render_template("review.html")
 
         
+@app.route('/create_review', methods=["POST", "GET"])
+@login_required
+def create_review():
+    if request.method == "POST":
+        user_id = session["user_id"]
+        risbn = request.form.get("isbn")
+        rraiting = request.form.get("rating")
+        rcomment = request.form.get("comment")
 
+        if not risbn or not rraiting or not rcomment:
+            error = "Complete los campos faltantes"
+            return render_template('/book_details/<string:isbn>', error=error)
+        try:
+            createreview = text("INSERT INTO review (user_id, isbn, score, comment) VALUES (:user_id, :risbn, :rraiting, :rcomment)")
+            db.execute(createreview, {"user_id" :user_id, "risbn" :risbn, "rraiting" :rraiting, "rcomment" :rcomment})
+            db.commit()
+            db.close()
+            flash("Review creada correctamente", "success")
+        except Exception as e:
+            db.rollback()
+            print("Error: ", str(e))
+            flash("Ocurrió un error al procesar su solicitud", "error")
+            return render_template('/book_details/<string:isbn>')
+    else:
+        return render_template('book_details.html')
     
 
 

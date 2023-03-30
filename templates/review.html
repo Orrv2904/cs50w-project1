@@ -123,8 +123,9 @@
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="/create_review" method="POST">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Añadir reseña</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -132,33 +133,35 @@
         <div class="modal-body">
           <div class="mb-3">
             <label for="isbn" class="form-label">ISBN</label>
-            <input type="text" class="form-control" id="isbn">
-          </div>
-          <div class="mb-3">
-            <label for="stars" class="form-label">Puntuación</label>
-            <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-                Dropdown
-              </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                <li><button class="dropdown-item" type="button">Action</button></li>
-                <li><button class="dropdown-item" type="button">Another action</button></li>
-                <li><button class="dropdown-item" type="button">Something else here</button></li>
-              </ul>
-            </div>            
+            <input type="text" class="form-control" id="isbn" name="isbn" value="{{ isbn }}" readonly>
+          </div>          
+          <div class="btn-group">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
+              Seleccione una puntuación
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#" data-value="1">1</a></li>
+              <li><a class="dropdown-item" href="#" data-value="2">2</a></li>
+              <li><a class="dropdown-item" href="#" data-value="3">3</a></li>
+              <li><a class="dropdown-item" href="#" data-value="4">4</a></li>
+              <li><a class="dropdown-item" href="#" data-value="5">5</a></li>
+            </ul>
+            <input type="hidden" name="rating" id="rating" value="">
           </div>
           <div class="mb-3">
             <label for="comment" class="form-label">Comentario</label>
-            <textarea class="form-control" id="comment" rows="3"></textarea>
+            <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-primary">Guardar reseña</button>
+          <button type="submit" class="btn btn-primary">Guardar reseña</button>
         </div>
-      </div>
+      </form>
     </div>
   </div>
+</div>
+
 
 </main>
 
@@ -183,5 +186,16 @@
         container.classList.toggle("active-cont");
       });
     </script>
+
+    <script>
+      document.querySelectorAll('.dropdown-item').forEach(item => {
+        item.addEventListener('click', event => {
+          const rating = event.target.getAttribute('data-value');
+          document.getElementById('rating').value = rating;
+          document.querySelector('.btn-secondary').innerHTML = `Puntuación seleccionada: ${rating}`;
+        });
+      });
+    </script>
+
   </body>
 </html>
