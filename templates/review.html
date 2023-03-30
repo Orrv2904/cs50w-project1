@@ -109,11 +109,20 @@
           </button>
           <h4 class="mb-3">Reseñas de usuarios</h4>
           <div class="card mb-3">
-            <div class="card-body">
-              <h5 class="card-title">Usuario 1</h5>
-              <h6 class="card-subtitle mb-2 text-muted">4 estrellas</h6>
-              <p class="card-text">Excelente libro, lo recomiendo ampliamente.</p>
-            </div>
+            {% if review_data %}
+              {% for data in review_data %}
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ data.name }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ data.score }} estrellas</h6>
+                    <p class="card-text">{{ data.comment }}</p>
+                  </div>
+                </div>
+              {% endfor %}
+            {% else %}
+              <p>No hay datos disponibles.</p>
+            {% endif %}
+
           </div>
         </div>
       </div>

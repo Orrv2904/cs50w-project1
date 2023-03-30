@@ -164,9 +164,18 @@ def create_review():
         rraiting = request.form.get("rating")
         rcomment = request.form.get("comment")
 
+        review_query = text("SELECT * FROM review WHERE user_id = :user_id AND isbn = :risbn")
+        review = db.execute(review_query, {"user_id": user_id, "risbn": risbn}).fetchone()
+
+        if review:
+            error = "Ya has creado una review para este libro"
+            print(error)
+            return render_template('/book_details', error=error)
+
         if not risbn or not rraiting or not rcomment:
             error = "Complete los campos faltantes"
             return render_template('/book_details/<string:isbn>', error=error)
+
         try:
             createreview = text("INSERT INTO review (user_id, isbn, score, comment) VALUES (:user_id, :risbn, :rraiting, :rcomment)")
             db.execute(createreview, {"user_id" :user_id, "risbn" :risbn, "rraiting" :rraiting, "rcomment" :rcomment})
@@ -178,9 +187,28 @@ def create_review():
             print("Error: ", str(e))
             flash("Ocurrió un error al procesar su solicitud", "error")
             return render_template('/book_details/<string:isbn>')
+
     else:
-        return render_template('book_details.html')
+        return redirect('/book_details/<string:isbn>')
+
+
     
+
+@app.route('/review_data', methods=["GET"])
+def review_data():
+    if request.method == "GET":
+        try:
+            review_data = text("SELECT r.score, r.comment, u.name FROM review r JOIN users u ON r.user_id = u.id WHERE r.isbn = :isbn")
+            review_data = db.execute(review_data, {"isbn": isbn}).fetchall()
+            print(review_data)
+            db.commit()
+            return render_template("/book_details/<string:isbn>", review_data=review_data)
+        except Exception as e:
+            db.rollback()
+            print("Error: ", str(e))
+            abort(404)
+
+
 
 
 @app.route('/flasherror')
