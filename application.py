@@ -86,7 +86,7 @@ def books():
                                     break
                         book_img = book_info.get("imageLinks", {}).get("thumbnail")
                     else:
-                        book_img = "https://via.placeholder.com/128x196"
+                        book_img2 = "https://via.placeholder.com/128x196"
                         book_description = None
                     book = {
                         "image_link": book_img,

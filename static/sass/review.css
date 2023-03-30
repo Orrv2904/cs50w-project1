@@ -15,4 +15,10 @@
 
 .custom-img {
   width: 500px;
+}
+
+@media only screen and (max-width: 1440px) {
+  .custom-img {
+    padding-left: 220px;
+  }
 }/*# sourceMappingURL=review.css.map */
