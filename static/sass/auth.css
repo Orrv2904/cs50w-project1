@@ -7,7 +7,7 @@
 }
 
 body {
-  background-image: url(../images/bg4.jpg);
+  background-image: radial-gradient(circle, #ff69b4, #df80df, #af97fb, #73aaff, #2fb8fe, #50c0fb, #69c8f8, #80cff5, #aed8fc, #d2e3fe, #edf0fe, #ffffff);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -35,7 +35,7 @@ main {
   justify-content: center;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
-  background-color: rgba(0, 128, 255, 0.5);
+  background-color: rgba(4, 41, 74, 0.5);
   margin-top: 25%;
 }
 
