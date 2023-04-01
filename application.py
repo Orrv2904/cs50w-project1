@@ -231,6 +231,31 @@ def create_review():
         return redirect('/book_details/<string:isbn>')
 
 
+@app.route('/api/<isbn>')
+@login_required
+def get_book_info(isbn):
+    response = requests.get(f'https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}')
+    data = response.json()
+
+    book_info = data['items'][0]['volumeInfo']
+    title = book_info.get('title', '')
+    authors = ', '.join(book_info.get('authors', []))
+    published_date = book_info.get('publishedDate', '')
+    isbn_13 = book_info.get('industryIdentifiers', [])[0].get('identifier', '') if len(book_info.get('industryIdentifiers', [])) > 0 and book_info.get('industryIdentifiers', [])[0].get('type', '') == 'ISBN_13' else ''
+    review_count = book_info.get('ratingsCount', 0)
+    average_score = book_info.get('averageRating', 0)
+
+    response_data = {
+        'title': title,
+        'author': authors,
+        'year': published_date,
+        'isbn': isbn_13,
+        'review_count': review_count,
+        'average_score': average_score
+    }
+
+    return jsonify(response_data)
+
     
 
 @app.route('/review_data', methods=["GET"])
