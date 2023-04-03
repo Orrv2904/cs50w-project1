@@ -8,7 +8,12 @@ en donde cada libro tendra su apartado de envio y muestra de reseñas.
 
 <details>
   <summary>Tabla de Contenido</summary>
-    [Tecnologías que se usaron:](#Tecnologías que se usaron:)
+     <ol>
+    <li><a href="#tecnologias">Tecnologías que se usaron</a></li>
+    <li><a href="#como_funciona">¿Como Funciona?</a></li>
+    <li><a href="#instalacion">Instalacion</a></li>
+    <li><a href="#ejecucion">Ejecucion</a></li>
+  </ol>
 </details>
 
 <input type="hidden" id="tecnologias" value="">
