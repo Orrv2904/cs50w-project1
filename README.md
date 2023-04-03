@@ -9,10 +9,10 @@ en donde cada libro tendra su apartado de envio y muestra de reseñas.
 <details>
   <summary>Tabla de Contenido</summary>
   <ol>
-    <li><a href="#tecnologias">Tecnologías que se usaron</a></li>
-    <li><a href="#como_funciona">¿Comó Funciona?</a></li>
-    <li><a href="#instalacion">Instalación</a></li>
-    <li><a href="#ejecucion">Ejecución</a></li>
+    <li><a href="#Tecnologías que se usaron:">Tecnologías que se usaron</a></li>
+    <li><a href="#¿Comó Funciona?">¿Comó Funciona?</a></li>
+    <li><a href="#Instalación:">Instalación</a></li>
+    <li><a href="#Ejecución:">Ejecución</a></li>
   </ol>
 </details>
 
