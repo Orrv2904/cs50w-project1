@@ -6,15 +6,13 @@ Este proyecto consta en una aplicación en donde los usuarios pueden registrar s
 de igual forma podran buscar un libro ya sea por el número ISBN de el libro, el título de el libro, o el autor de un libro,
 en donde cada libro tendra su apartado de envio y muestra de reseñas.
 
-<details>
-  <summary>Tabla de Contenido</summary>
+Tabla de Contenido
      <ol>
     <li><a href="#tecnologias">Tecnologías que se usaron</a></li>
     <li><a href="#como_funciona">¿Como Funciona?</a></li>
     <li><a href="#instalacion">Instalacion</a></li>
     <li><a href="#ejecucion">Ejecucion</a></li>
   </ol>
-</details>
 
 <input type="hidden" id="tecnologias" value="">
 
