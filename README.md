@@ -15,11 +15,28 @@ Tabla de Contenido
 <input type="hidden" id="tecnologias" value="">
 
 ## Tecnologías que se usaron:
+
+<p align="center">
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python"></a>
+  <a href="https://badge.fury.io/py/flask"><img src="https://img.shields.io/badge/Flask-000000?style=flat-square&logo=flask&logoColor=white" alt="Flask"></a>
+  <a href="https://www.postgresql.org/"><img src="https://img.shields.io/badge/PostgreSQL-316192.svg?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL"></a>
+  <a href="https://badge.fury.io/py/psycopg2"><img src="https://img.shields.io/badge/psycopg2-4169E1?style=flat-square&logo=postgresql&logoColor=white" alt="psycopg2"></a>
+  <a href="https://badge.fury.io/py/HTML"><img src="https://img.shields.io/badge/HTML-239120?style=flat-square&logo=html5&logoColor=white" alt="HTML"></a>
+  <a href="https://badge.fury.io/py/sass"><img src="https://img.shields.io/badge/Sass-CC6699?style=flat-square&logo=sass&logoColor=white" alt="Sass"></a>
+  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript"><img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black" alt="JavaScript"></a>
+</p>
+
 1. <b>Python</b>: Se utilizó para la creación de las tablas por medio de modelos haciendo uso de ORM, de igual forma para importar toda la información de los libros contenida en un CSV.
+
 2. <b>Flask</b>: Se utilizó para la creación de toda la aplicación, para ser más específicos en la creación de las rutas y funcionalidades de la aplicación.
+
 3. <b>PostgreSQL</b>: Se utilizó para almacenar toda la información recibida de nuestra aplicación.
+
 4. <b>HTML</b>: Se utilizó para la creación de nuestras plantillas (templates) que se muestran en la vista del cliente.
+
 5. <b>SASS</b>: Se utilizó para mejorar la eficiencia en la escritura de los estilos CSS.
+
+6. <b>JavaScript</b>: Se utilizó para mejorar la apariencia de las vistas y darle algunas funcionalidades extras.
 
 ## 
 
