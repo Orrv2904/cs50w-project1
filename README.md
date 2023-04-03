@@ -64,4 +64,33 @@ Git Clone https://github.com/Orrv2904/cs50w-project1.git
 Una vez descargado, podra acceder a el por medio del CMD de Windows o si prefiere puede usar: ```MINGW64``` de Git y luego ejecutar el comando ```Code .``` para abrirlo en VS Code.
 
 Ahora debera de instalar las <b>dependencias</b> de nuestro programa, para ello debera abrir una terminal dentro de VS Code, puede abrirla en el menú superior, selecciona "Terminal" y luego "New Terminal" (o presiona la combinación de teclas ```Ctrl + Shift + ``` si estás en Windows o Linux, o ```Cmd + Shift +``` si estas en Mac.
+Dentro de esta terminal deberas de instalar ```pip``` si aun no lo tienes instaldo, para hacerlo ejecuta el siguiente comando ```pip install pip```, normalmente viene instaldo con Python si aun no tienes instalado Python puedes ver como hacerlo leyendo [aqui](https://tutorial.djangogirls.org/es/python_installation/).
+Luego deberas de crear un <b>Ambiente Virtual</b> haciendo uso del siguiente comando ```python -m venv env``` y para activarlo ejecuta este otro comando ```.\env\Scripts\activate```.
+Ahora deberas de instalar nuestras dependecias que se encuentran en nuestro archivo <b>requirements.txt</b>, para ello ejecuta ```pip install -r .\requirements.txt``` y espera que se termine de instalar todo.
+Posterior deberas crear un archivo llamado <b>.env</b> en donde contendra todas las variables de entorno que usara nuestra aplicacion, puedes crearlo manual o tambien puedes ejecutar este comando: ```touch .env``` y dentro de este deberas de pasar las variables que estan en ```.env.templates``` que son estas:
+```
+DATABASE_URL=
+FLASK_DEBUG=
+FLASK_APP= 
+```
+<b style="background-color: yellow; padding: 5px;">NOTA</b>: Antes de cada variable deberas de anteponer ```export``` esto es para indicar que la variable de entorno especificada será exportada a cualquier proceso secundario lanzado desde la terminal actual.
+En la variable ```DATABASE_URL=``` deberas igresar la ```URL``` de tu base de datos <b>PostgreSQL</b> creada en [RailWay](https://railway.app/) o en [Render](https://render.com/), si quieres saber más acerca de esto puedes leer más aquí [RailWay](https://ekomenyong.com/insights/how-to-setup-free-postgresql-database-on-railway-app) y [Render](https://medium.com/geekculture/how-to-create-and-connect-to-a-postgresql-database-with-render-and-pgadmin-577b326fd19d).
 
+Ahora deberas obtener la cadena de conexión otorgada por Railway o Render, para ello deberas de crear tu cuenta y crear la base de datos a como te deje arriba:
+* RailWay tiene un apartado llamado ```Connect``` en la cual deberas estar en la base de datos a usar, y deberas seleccionar esta parte: ![01](https://user-images.githubusercontent.com/82064182/229641462-89e7c60a-e30a-43f4-8287-9fa401e1f295.png)
+
+* En Render deberas de seleccionar la cadena externa: ![02](https://user-images.githubusercontent.com/82064182/229641700-5d0ba55a-6f44-438f-a456-0fbb8e300b8e.png)
+
+Una vez obteniedo esta cadena de conexión la deberas de pegar en <b>DATABASE_URL=</b> obteniendo un resultado como este ```export DATABASE_URL=postgresql://postgres:PASSSWORD@HOST:PORT/USER```.
+
+* Y en <b>FLASK_DEBUG= y FLASK_APP=</b> deberas de agregar esto: ```
+    FLASK_DEBUG=1
+    FLASK_APP=application.py```
+
+##
+
+## Ejecución:
+
+Para ejecutar la aplicación deberas de ejecutar el siguiente comando:
+ * ```Flask Run``` el cual te abrira la aplicación en un puerto de tu compuradora, por lo general es el <b>5000</b> puedes acceder a el por medio de la terminal o escribiendo el siguiente comando ```http://localhost:5000/```
+##
