@@ -6,6 +6,18 @@ Este proyecto consta en una aplicación en donde los usuarios pueden registrar s
 de igual forma podran buscar un libro ya sea por el número ISBN de el libro, el título de el libro, o el autor de un libro,
 en donde cada libro tendra su apartado de envio y muestra de reseñas.
 
+<details>
+  <summary>Tabla de Contenido</summary>
+  <ol>
+    <li><a href="#tecnologias">Tecnologías que se usaron</a></li>
+    <li><a href="#como_funciona">¿Comó Funciona?</a></li>
+    <li><a href="#instalacion">Instalación</a></li>
+    <li><a href="#ejecucion">Ejecución</a></li>
+  </ol>
+</details>
+
+<input type="hidden" id="tecnologias" value="">
+
 ## Tecnologías que se usaron:
 1. <b>Python</b>: Se utilizo para la creación de las tablas por medio de modelos haciendo uso de ORM, de igual forma para importar toda la información de los libros contenida en un csv.
 2. <b>Flask</b>: Se utlizo para la creación de toda la aplicación, para ser más especificos en la creación de las rutas y funcionalidades de la aplicación.
@@ -14,6 +26,8 @@ en donde cada libro tendra su apartado de envio y muestra de reseñas.
 5. <b>SASS</b>: Se utilizo para mejorar la eficiencia en la escritura de los estilos CSS.
 
 ## 
+
+<input type="hidden" id="como_funciona" value="">
 
 ## ¿Comó Funciona?
 
@@ -53,6 +67,7 @@ En donde esta le devolvera informacion del <b>ISBN</b> al cual esta haciendo la 
 
 ##
 
+<input type="hidden" id="instalacion" value="">
 
 ## Instalación:
 
@@ -88,6 +103,8 @@ Una vez obteniedo esta cadena de conexión la deberas de pegar en <b>DATABASE_UR
     FLASK_APP=application.py```
 
 ##
+
+<input type="hidden" id="ejecucion" value="">
 
 ## Ejecución:
 
