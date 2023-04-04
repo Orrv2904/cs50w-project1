@@ -308,12 +308,11 @@ def validar_contraseña(password):
         return "La contraseña debe contener al menos un número"
     if not any(char.isalpha() for char in password):
         return "La contraseña debe contener al menos una letra"
-    common_passwords = ["123456", "password", "123456789", "12345678", "12345"]
+    common_passwords = ["123456", "password", "123456789", "12345678", "12345", "contraseña"]
     if password.lower() in common_passwords:
         return "La contraseña es demasiado común"
     return None
 
-import re
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -323,10 +322,14 @@ def register():
         rpassword = request.form.get("password")
         hashed_password = generate_password_hash(rpassword)
 
-        # Validar que se haya ingresado un correo electrónico válido
         email_regex = r"^[a-zA-Z0-9._%+-]+@(gmail|outlook|yahoo)\.(com|edu|net)$"
         if not re.match(email_regex, remail):
             flash("Ingrese un correo electrónico válido (Gmail, Outlook, Yahoo)", "info")
+            return render_template("auth.html")
+
+        error_msg = validar_contraseña(rpassword)
+        if error_msg:
+            flash(error_msg, "error")
             return render_template("auth.html")
 
         if not rname or not remail or not rpassword:
@@ -343,7 +346,6 @@ def register():
 
             if user_exists or email_exists:
                 flash("El usuario o el correo electrónico ya existe", "error")
-                print(flash)
                 return render_template("/Auth")
             
             agregar_usuario = text("INSERT INTO users (name, email, password) VALUES (:rname, :remail, :hashed_password)")
@@ -358,6 +360,7 @@ def register():
             #flash("Ha ocurrido un error", "error")
             #abort(404)
             return redirect('/Auth')
+
 
 
 
