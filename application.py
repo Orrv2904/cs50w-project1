@@ -248,27 +248,43 @@ def create_review():
 @app.route('/api/<isbn>')
 @login_required
 def get_book_info(isbn):
-    response = requests.get(f'https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}')
-    data = response.json()
+    book_query = text("SELECT * FROM books WHERE isbn = :isbn")
+    book = db.execute(book_query, {"isbn": isbn}).fetchone()
 
-    book_info = data['items'][0]['volumeInfo']
-    title = book_info.get('title', '')
-    authors = ', '.join(book_info.get('authors', []))
-    published_date = book_info.get('publishedDate', '')
-    isbn_10 = book_info.get('industryIdentifiers', [])[0].get('identifier', '') if len(book_info.get('industryIdentifiers', [])) > 0 and book_info.get('industryIdentifiers', [])[0].get('type', '') == 'ISBN_10' else ''
-    review_count = book_info.get('ratingsCount', 0)
-    average_score = book_info.get('averageRating', 0)
+    if book is not None:
+        response = requests.get(f'https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}')
+        data = response.json()
 
-    response_data = {
-        'title': title,
-        'author': authors,
-        'year': published_date,
-        'isbn': isbn_10,
-        'review_count': review_count,
-        'average_score': average_score
-    }
+        book_info = data['items'][0]['volumeInfo']
+        title = book_info.get('title', '')
+        authors = ', '.join(book_info.get('authors', []))
+        published_date = book_info.get('publishedDate', '')
+        isbn_10 = ''
+        for identifier in book_info.get('industryIdentifiers', []):
+            if identifier.get('type', '') == 'ISBN_10':
+                isbn_10 = identifier.get('identifier', '')
+                break
+        review_count = book_info.get('ratingsCount', 0)
+        average_score = book_info.get('averageRating', 0)
 
-    return jsonify(response_data)
+        response_data = {
+            'title': title,
+            'author': authors,
+            'year': published_date,
+            'isbn': isbn_10,
+            'review_count': review_count,
+            'average_score': average_score
+        }
+
+        return jsonify(response_data)
+    else:
+        response_data = {
+            'mensaje': f'El libro con ISBN {isbn} no se encuentra en nuestra base de datos.'
+        }
+
+        return jsonify(response_data), 404
+
+
 
     
 
@@ -329,7 +345,7 @@ def register():
 
         error_msg = validar_contraseña(rpassword)
         if error_msg:
-            flash(error_msg, "error")
+            flash(error_msg, "info")
             return render_template("auth.html")
 
         if not rname or not remail or not rpassword:
