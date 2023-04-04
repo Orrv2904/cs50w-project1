@@ -115,6 +115,15 @@ Una vez obtenida esta cadena de conexión, deberás pegarla en la variable <b>DA
 * Y en <b>FLASK_DEBUG= y FLASK_APP=</b> deberás de agregar esto: ```
     FLASK_DEBUG=1
     FLASK_APP=application.py```
+    
+* Para terminar en esta sección deberás de crear las tablas e ingresar los datos a la base de datos, para ello deberás ejecutar los siguientes comandos en la terminal: 
+  ```
+     python -m create_tables
+  ```
+  Y 
+  ```
+     python -m import
+  ```
 
 ##
 
