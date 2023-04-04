@@ -30,18 +30,18 @@
 
   </head>
 
-  <body>
-    <main>
-    
+  <body>    
     <!-- Side-Nav -->
     <div class="side-navbar active-nav d-flex justify-content-between flex-wrap flex-column" id="sidebar">
       <ul class="nav flex-column text-white w-100">
         <a href="#" class="nav-link h3 text-white my-2">
           CS50W PROJECT1</br>Books
         </a>
-        <li href="#" class="nav-link">
-        <i class="fa-solid fa-house"></i>
-          <span class="mx-2">Home</span>
+        <li class="nav-link">
+          <a href="/" class="nav-link">
+            <i class="fa-solid fa-house"></i>
+            <span class="mx-2">Home</span>
+          </a>
         </li>
         <li href="#" class="nav-link">
           <i class="fa-solid fa-search"></i>
@@ -63,160 +63,130 @@
           </li>
       </ul>
     </div>
-
-    <!-- Main Wrapper -->
-    <div class="p-1 my-container active-cont">
-      <!-- Top Nav -->
-      <nav class="navbar top-navbar navbar-light bg-light px-5">
-        <a class="btn border-0" id="menu-btn"><i class="bx bx-menu"></i></a>
-      </nav>
-      <!--End Top Nav -->
-      {% if user_name %}
-        <h3 class="bienvenido">Bienvenido, {{ user_name }}</h3>
-      {% endif %}
-      {% if user_name2 %}
-        <h3 class="bienvenido">Estos son los resultados de su busqueda, {{ user_name2 }}</h3>
-      {% endif %}
+<main>
+  <!-- Main Wrapper -->
+  <div class="p-1 my-container active-cont">
+    <!-- Top Nav -->
+    <nav class="navbar top-navbar navbar-light bg-light px-5">
+      <a class="btn border-0" id="menu-btn"><i class="bx bx-menu"></i></a>
+    </nav>
+    <!--End Top Nav -->
+    {% if user_name %}
+      <h3 class="bienvenido">Bienvenido, {{ user_name }}</h3>
+    {% endif %}
+    {% if user_name2 %}
+      <h3 class="bienvenido">Estos son los resultados de su busqueda, {{ user_name2 }}</h3>
+    {% endif %}
 
 
 </div>
 
 <section>
-  <div class="container my-5">
-      <div class="row">
-        <div class="col-lg-4">
-          <img src="{{ book_img }}" alt="Book cover" class="img-fluid custom-img">
-        </div>
-        <div class="col-lg-8">
-          <h1 class="fw-bold mb-3">{{ book_title }}</h1>
-          <h3 class="text-secondary mb-3">Autor del libro: {{ book_author }}</h3>
-          <p class="fw-light mb-3">Año de publicación: {{ book_year }}</p>
-          <p class="fw-light mb-3">ISBN: {{ isbn }}</p>
-          <p class="fw-light mb-3">Descripción del libro: {{ book_description }}</p>     
-          <div class="rating">
-            {% for i in range(1, 6) %}
-                {% if book_rating >= i %}
-                  <i class="fas fa-star"></i>
-                {% else %}
-                  <i class="far fa-star"></i>
-                {% endif %}
-            {% endfor %}
-            <span class="mx-2">{{ book_rating }}/5.0</span>
-            <span class="mx-2">({{ book_rating_count }} reseñas)</span>
-          </div>                  
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Añadir reseña
-          </button>
-          <h4 class="mb-3">Reseñas de usuarios</h4>
-          <div class="card mb-3">
-            {% if review_data %}
-            {% for data in review_data %}
-            <div class="card mb-3">
-              <div class="card-body">
-                <h5 class="card-title">{{ data.name }}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">
-                  {% for i in range(1, 6) %}
-                    {% if data.score >= i %}
-                      <i class="fas fa-star"></i>
-                    {% else %}
-                      <i class="far fa-star"></i>
-                    {% endif %}
-                  {% endfor %}
-                  {{ data.score }} estrellas
-                </h6>
-                <p class="card-text">{{ data.comment }}</p>
-              </div>
-            </div>
+<div class="container my-5">
+    <div class="row">
+      <div class="col-lg-4">
+        <img src="{{ book_img }}" alt="Book cover" class="img-fluid custom-img">
+      </div>
+      <div class="col-lg-8">
+        <h1 class="fw-bold mb-3">{{ book_title }}</h1>
+        <h3 class="text-secondary mb-3">Autor del libro: {{ book_author }}</h3>
+        <p class="fw-light mb-3">Año de publicación: {{ book_year }}</p>
+        <p class="fw-light mb-3">ISBN: {{ isbn }}</p>
+        <p class="fw-light mb-3">Descripción del libro: {{ book_description }}</p>     
+        <div class="rating">
+          {% for i in range(1, 6) %}
+              {% if book_rating >= i %}
+                <i class="fas fa-star"></i>
+              {% else %}
+                <i class="far fa-star"></i>
+              {% endif %}
           {% endfor %}
-          
-            {% else %}
-              <p>No hay datos disponibles.</p>
-            {% endif %}
-
+          <span class="mx-2">{{ book_rating }}/5.0</span>
+          <span class="mx-2">({{ book_rating_count }} reseñas)</span>
+        </div>                  
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          Añadir reseña
+        </button>
+        <h4 class="mb-3">Reseñas de usuarios</h4>
+        <div class="card mb-3">
+          {% if review_data %}
+          {% for data in review_data %}
+          <div class="card mb-3">
+            <div class="card-body">
+              <h5 class="card-title">{{ data.name }}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">
+                {% for i in range(1, 6) %}
+                  {% if data.score >= i %}
+                    <i class="fas fa-star"></i>
+                  {% else %}
+                    <i class="far fa-star"></i>
+                  {% endif %}
+                {% endfor %}
+                {{ data.score }} estrellas
+              </h6>
+              <p class="card-text">{{ data.comment }}</p>
+            </div>
           </div>
+        {% endfor %}
+        
+          {% else %}
+            <p>No hay datos disponibles.</p>
+          {% endif %}
+
         </div>
       </div>
     </div>
+  </div>
 </section>
 
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <form action="/create_review" method="POST">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Añadir reseña</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div class="modal-dialog">
+  <div class="modal-content">
+    <form action="/create_review" method="POST">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Añadir reseña</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="isbn" class="form-label">ISBN</label>
+          <input type="text" class="form-control" id="isbn" name="isbn" value="{{ isbn }}" readonly>
+        </div>          
+        <div class="btn-group">
+          <button id="puntuacion" type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
+            Seleccione una puntuación
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item"  data-value="1">1</a></li>
+            <li><a class="dropdown-item"  data-value="2">2</a></li>
+            <li><a class="dropdown-item"  data-value="3">3</a></li>
+            <li><a class="dropdown-item"  data-value="4">4</a></li>
+            <li><a class="dropdown-item"  data-value="5">5</a></li>
+          </ul>
+          <input type="hidden" name="rating" id="rating" value="">
         </div>
-        <div class="modal-body">
-          <div class="mb-3">
-            <label for="isbn" class="form-label">ISBN</label>
-            <input type="text" class="form-control" id="isbn" name="isbn" value="{{ isbn }}" readonly>
-          </div>          
-          <div class="btn-group">
-            <button id="puntuacion" type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
-              Seleccione una puntuación
-            </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item"  data-value="1">1</a></li>
-              <li><a class="dropdown-item"  data-value="2">2</a></li>
-              <li><a class="dropdown-item"  data-value="3">3</a></li>
-              <li><a class="dropdown-item"  data-value="4">4</a></li>
-              <li><a class="dropdown-item"  data-value="5">5</a></li>
-            </ul>
-            <input type="hidden" name="rating" id="rating" value="">
-          </div>
-          <div class="mb-3">
-            <label for="comment" class="form-label">Comentario</label>
-            <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
-          </div>
+        <div class="mb-3">
+          <label for="comment" class="form-label">Comentario</label>
+          <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <button type="submit" class="btn btn-primary">Guardar reseña</button>
-        </div>
-      </form>
-      {% with messages = get_flashed_messages(with_categories=True) %}
-{% if messages %}
-    {% for category, message in messages %}
-        {% if category == 'error' %}
-            <script>
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    text: "{{message}}",
-                    showConfirmButton: true,
-                    timer: 5000
-                })
-            </script>
-        {% else %}
-            <script>
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    text: "{{message}}",
-                    showConfirmButton: true,
-                    timer: 5000
-                })
-            </script>
-        {% endif %}
-    {% endfor %}
-{% endif %}
-{% endwith %}
-    </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Guardar reseña</button>
+      </div>
+    </form>
   </div>
 </div>
-
-
+</div>
 </main>
 
 
 
 
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <!-- bootstrap js -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+<!-- bootstrap js -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"

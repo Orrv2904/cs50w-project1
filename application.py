@@ -1,4 +1,5 @@
 import os
+import re
 
 from flask import Flask, session, render_template, request, flash, redirect, url_for, jsonify, get_flashed_messages
 import requests
@@ -101,12 +102,12 @@ def books():
                 # user_name_query = text("SELECT name FROM users WHERE id = :user_id")
                 # user_name2 = db.execute(user_name_query, {"user_id": user_id}).fetchone()[0]
                 db.commit()
-                flash("Libro encontrado correctamente", "success")
+                flash("Coincidencias encontradas correctamente", "success")
                 messages = get_flashed_messages()
                 print(messages)
                 return render_template("index.html", books=libros)
             else:
-                flash("El libro no fue encontrado en nuestra base de datos", "info")
+                flash("No encontramos registros similares a su busqueda", "info")
                 messages = get_flashed_messages()
                 print(messages)
                 return render_template("index.html")
@@ -211,12 +212,17 @@ def create_review():
 
         if review:
             error = "Ya has creado una review para este libro"
-            flash("Ya has creado una review para este libro", "error")
+            flash("Ya has creado una review para este libro", "info")
+            messages = get_flashed_messages()
+            print(messages)
             print(error)
             return redirect(f'/book_details/{risbn}')
 
         if not risbn or not rraiting or not rcomment:
             error = "Complete los campos faltantes"
+            flash("Complete los campos faltantes", "error")
+            messages = get_flashed_messages()
+            print(messages)
             return render_template('/book_details/<string:isbn>', error=error)
 
         try:
@@ -226,6 +232,8 @@ def create_review():
             db.commit()
             db.close()
             flash("Review creada correctamente", "success")
+            messages = get_flashed_messages()
+            print(messages)
             return redirect(f'/book_details/{risbn}')
         except Exception as e:
             db.rollback()
@@ -247,7 +255,7 @@ def get_book_info(isbn):
     title = book_info.get('title', '')
     authors = ', '.join(book_info.get('authors', []))
     published_date = book_info.get('publishedDate', '')
-    isbn_13 = book_info.get('industryIdentifiers', [])[0].get('identifier', '') if len(book_info.get('industryIdentifiers', [])) > 0 and book_info.get('industryIdentifiers', [])[0].get('type', '') == 'ISBN_13' else ''
+    isbn_10 = book_info.get('industryIdentifiers', [])[0].get('identifier', '') if len(book_info.get('industryIdentifiers', [])) > 0 and book_info.get('industryIdentifiers', [])[0].get('type', '') == 'ISBN_10' else ''
     review_count = book_info.get('ratingsCount', 0)
     average_score = book_info.get('averageRating', 0)
 
@@ -255,7 +263,7 @@ def get_book_info(isbn):
         'title': title,
         'author': authors,
         'year': published_date,
-        'isbn': isbn_13,
+        'isbn': isbn_10,
         'review_count': review_count,
         'average_score': average_score
     }
@@ -305,6 +313,8 @@ def validar_contraseña(password):
         return "La contraseña es demasiado común"
     return None
 
+import re
+
 @app.route('/register', methods=['POST'])
 def register():
     if request.method == 'POST':
@@ -312,6 +322,12 @@ def register():
         remail = request.form.get("email")
         rpassword = request.form.get("password")
         hashed_password = generate_password_hash(rpassword)
+
+        # Validar que se haya ingresado un correo electrónico válido
+        email_regex = r"^[a-zA-Z0-9._%+-]+@(gmail|outlook|yahoo)\.(com|edu|net)$"
+        if not re.match(email_regex, remail):
+            flash("Ingrese un correo electrónico válido (Gmail, Outlook, Yahoo)", "info")
+            return render_template("auth.html")
 
         if not rname or not remail or not rpassword:
             flash("Por favor ingrese todos los campos", "info")
@@ -342,6 +358,7 @@ def register():
             #flash("Ha ocurrido un error", "error")
             #abort(404)
             return redirect('/Auth')
+
 
 
 @app.route('/login', methods=['GET', 'POST'])

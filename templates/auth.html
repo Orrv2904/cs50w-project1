@@ -54,33 +54,43 @@
 
   </main>
 
-{% with messages = get_flashed_messages(with_categories=True) %}
-{% if messages %}
-    {% for category, message in messages %}
-        {% if category == 'error' %}
-            <script>
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    text: "{{message}}",
-                    showConfirmButton: true,
-                    timer: 5000
-                })
-            </script>
-        {% else %}
-            <script>
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    text: "{{message}}",
-                    showConfirmButton: true,
-                    timer: 5000
-                })
-            </script>
-        {% endif %}
-    {% endfor %}
-{% endif %}
-{% endwith %}
+  {% with messages = get_flashed_messages(with_categories=True) %}
+  {% if messages %}
+      {% for category, message in messages %}
+      {% if category == 'error' %}
+      <script>
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          text: "{{message}}",
+          showConfirmButton: true,
+          timer: 5000
+        })
+      </script>
+    {% elif category == 'success' %}
+      <script>
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          text: "{{message}}",
+          showConfirmButton: true,
+          timer: 5000
+        })
+      </script>
+    {% else %}
+      <script>
+        Swal.fire({
+          position: 'center',
+          icon: 'info',
+          text: "{{message}}",
+          showConfirmButton: true,
+          timer: 5000
+        })
+      </script>
+    {% endif %}
+      {% endfor %}
+  {% endif %}
+  {% endwith %}
 
   
 
