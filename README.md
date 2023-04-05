@@ -17,6 +17,10 @@ Tabla de Contenido
 ## Tecnologías que se usaron:
 
 <p align="center">
+  <img src="http://ForTheBadge.com/images/badges/made-with-python.svg">
+</p>
+
+<p align="center">
   <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python"></a>
   <a href="https://badge.fury.io/py/flask"><img src="https://img.shields.io/badge/Flask-000000?style=flat-square&logo=flask&logoColor=white" alt="Flask"></a>
   <a href="https://www.postgresql.org/"><img src="https://img.shields.io/badge/PostgreSQL-316192.svg?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL"></a>
