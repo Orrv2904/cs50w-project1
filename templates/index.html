@@ -170,17 +170,23 @@
   <script>
     let typingTimer;
     const doneTypingInterval = 500;
-
+  
     $(document).ready(function () {
       $("#search_input").on("input", function () {
         clearTimeout(typingTimer);
         typingTimer = setTimeout(getAutocompleteResults, doneTypingInterval);
       });
+  
+      $(document).on("click", ".search-result", function () {
+        var title = $(this).text();
+        $("#search_input").val(title);
+        $("#search_results").html("");
+      });
     });
-
+  
     function getAutocompleteResults() {
       const search_term = $("#search_input").val();
-
+  
       $.getJSON("/autocomplete", { "search_term": search_term }, function (data) {
         if (data.length === 0) {
           $("#search_results").html("<ul class='list-group'><li class='list-group-item'>No se encontraron resultados</li></ul>");
@@ -188,12 +194,14 @@
           const results = $.map(data.slice(0, 10), function (book) {
             return "<li class='list-group-item list-group-item-action search-result'>" + book.title + "</li>";
           });
-
+  
           $("#search_results").html("<ul class='list-group'>" + results.join("") + "</ul>");
         }
       });
     }
   </script>
+  
+
   
   
 

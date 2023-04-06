@@ -117,15 +117,15 @@ def books():
             print("Error: ", str(e))
             abort(404)
 
-
 @app.route('/autocomplete')
 def autocomplete():
     search_term = request.args.get('search_term', '')
     search_term = search_term.title()
-    books_query = text("SELECT * FROM books WHERE isbn = :search_term OR title LIKE :search_term OR author LIKE :search_term OR year = :search_term")
+    books_query = text("SELECT * FROM books WHERE isbn = :search_term OR title LIKE :search_term OR author LIKE :search_term")
     books = db.execute(books_query, {'search_term': f'%{search_term}%'}).fetchall()
     results = [{'title': book[2]} for book in books]
     return jsonify(results)
+
 
 
 
