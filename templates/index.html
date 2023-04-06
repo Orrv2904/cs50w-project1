@@ -80,7 +80,7 @@
       <div class="p-1 my-container active-cont">
         <form class="d-flex" action="/books" method="POST">
           <input class="form-control me-2" type="search" placeholder="Buscar por ISBN, Autor, Titulo o Año"
-            aria-label="Buscar" required name="search_term" id="search_input">
+            aria-label="Buscar" required name="search_term" id="search_input" autocapitalize="off">
           <button class="btn btn-outline-dark" type="submit">Buscar</button>
         </form>
         <div id="search_results"></div>
@@ -168,20 +168,24 @@
   {% endwith %}
   
   <script>
-    $(document).ready(function() {
-      $("#search_input").on("input", function() {
+    $(document).ready(function () {
+      $("#search_input").on("input", function () {
         var search_term = $(this).val();
-  
-        $.getJSON("/autocomplete", {"search_term": search_term}, function(data) {
-          var results = $.map(data.slice(0,10), function(book) {
-            return "<li class='list-group-item list-group-item-action search-result'>" + book.title + "</li>";
-          });
-  
-          $("#search_results").html("<ul class='list-group'>" + results.join("") + "</ul>");
+
+        $.getJSON("/autocomplete", { "search_term": search_term }, function (data) {
+          if (data.length === 0) {
+            $("#search_results").html("<ul class='list-group'><li class='list-group-item'>No se encontraron resultados</li></ul>");
+          } else {
+            var results = $.map(data.slice(0, 10), function (book) {
+              return "<li class='list-group-item list-group-item-action search-result'>" + book.title + "</li>";
+            });
+
+            $("#search_results").html("<ul class='list-group'>" + results.join("") + "</ul>");
+          }
         });
       });
-  
-      $(document).on("click", ".search-result", function() {
+
+      $(document).on("click", ".search-result", function () {
         var title = $(this).text();
         $("#search_input").val(title);
         $("#search_results").html("");
