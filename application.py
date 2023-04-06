@@ -102,8 +102,6 @@ def books():
                     }
                     libros.append(book)
                 user_id = session["user_id"]
-                # user_name_query = text("SELECT name FROM users WHERE id = :user_id")
-                # user_name2 = db.execute(user_name_query, {"user_id": user_id}).fetchone()[0]
                 db.commit()
                 flash("Coincidencias encontradas correctamente", "success")
                 messages = get_flashed_messages()
@@ -114,11 +112,24 @@ def books():
                 messages = get_flashed_messages()
                 print(messages)
                 return render_template("index.html")
-                # return render_template("index.html", user_name2=user_name2)
         except Exception as e:
             db.rollback()
             print("Error: ", str(e))
             abort(404)
+
+
+@app.route('/autocomplete')
+def autocomplete():
+    search_term = request.args.get('search_term', '')
+    search_term = search_term.title()
+    books_query = text("SELECT * FROM books WHERE isbn = :search_term OR title LIKE :search_term OR author LIKE :search_term OR year = :search_term")
+    books = db.execute(books_query, {'search_term': f'%{search_term}%'}).fetchall()
+    results = [{'title': book[2]} for book in books]
+    return jsonify(results)
+
+
+
+
 
 
 
