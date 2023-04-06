@@ -58,9 +58,16 @@
           <a class="btn border-0" id="menu-btn"><i class="bx bx-menu"></i></a>
         </nav>
         <!--End Top Nav -->
-        {% if user_name %}
-        <h3 class="bienvenido">Bienvenido, {{ user_name }}</h3>
+        {% if request.method == 'GET' %}
+          {% if user_name %}
+            <h3 class="bienvenido">Bienvenido, {{ user_name }}</h3>
+          {% endif %}
+        {% elif request.method == 'POST' %}
+          {% if user_name %}
+            <h3 class="bienvenido">{{ user_name }}, Estos son los resultados de su búsqueda</h3>
+          {% endif %}
         {% endif %}
+
       </div>
 
       <!-- Buscador -->
@@ -77,8 +84,12 @@
         {% for book in books %}
         <div class="row">
           <div class="col-md-3">
-            <img src="{{ book['image_link'] }}" alt="Book Cover" class="img-fluid">
-          </div>
+            {% if book['image_link'] %}
+                <img src="{{ book['image_link'] }}" alt="Book Cover" class="img-fluid">
+            {% else %}
+                <img src="https://via.placeholder.com/128x196?text=Image+Not+Available" alt="Image Not Available" class="img-fluid">
+            {% endif %}
+        </div>        
           <div class="col-md-9">
             <h2 class="fw-bold mb-4">{{ book['title'] }}</h2>
             <div class="d-flex align-items-center mb-3">

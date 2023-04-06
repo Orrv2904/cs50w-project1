@@ -67,6 +67,9 @@ def books():
     elif request.method == "POST":
         libros = []
         try:
+            user_id = session["user_id"]
+            user_name_query = text("SELECT name FROM users WHERE id = :user_id")
+            user_name = db.execute(user_name_query, {"user_id": user_id}).fetchone()[0]
             search_term = request.form["search_term"]
             search_term = search_term.title()
             print(search_term)
@@ -87,7 +90,7 @@ def books():
                                     break
                         book_img = book_info.get("imageLinks", {}).get("thumbnail")
                     else:
-                        book_img = "https://via.placeholder.com/128x196"
+                        book_img = "https://via.placeholder.com/128x196?text=Image+Not+Available"
                         book_description = None
                     book = {
                         "image_link": book_img,
@@ -105,7 +108,7 @@ def books():
                 flash("Coincidencias encontradas correctamente", "success")
                 messages = get_flashed_messages()
                 print(messages)
-                return render_template("index.html", books=libros)
+                return render_template("index.html", books=libros, user_name=user_name)
             else:
                 flash("No encontramos registros similares a su busqueda", "info")
                 messages = get_flashed_messages()
