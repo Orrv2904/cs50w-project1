@@ -34,35 +34,33 @@
     <!-- Side-Nav -->
     <div class="side-navbar active-nav d-flex justify-content-between flex-wrap flex-column" id="sidebar">
       <ul class="nav flex-column text-white w-100">
-        <a href="#" class="nav-link h3 text-white my-2">
-          CS50W PROJECT1</br>Books
-        </a>
-        <li class="nav-link">
-          <a href="/" class="nav-link">
-            <i class="fa-solid fa-house"></i>
-            <span class="mx-2">Home</span>
+          <a href="#" class="nav-link h3 text-white my-2">
+              CS50W PROJECT1</br>Books
           </a>
-        </li>
-        <li href="#" class="nav-link">
-          <i class="fa-solid fa-search"></i>
-          <span class="mx-2">Search a book</span>
-        </li>
-        <li href="#" class="nav-link">
-        <i class="fa-solid fa-user"></i>
-        <a href=""><span class="mx-2">Account</span></a> 
-        </li>
-      </ul>
-      <ul class="nav flex-column text-white w-100">
-        <li href="#" class="nav-link">
-          <i class="fa-solid fa-sign-out"></i>
-          <form method="POST" action="/logout">
-            <button type="submit" class="btn btn-primary btn-logout">
-                Cerrar Sesion
-            </button>
-        </form>
+          <li href="#" class="nav-link">
+              <i class="fa-solid fa-house"></i>
+              <a href="{{ url_for('books') }}"><span class="mx-2">Home</span></a>
+          </li>
+          <li href="#" class="nav-link">
+              <i class="fas fa-history"></i>
+              <a href="{{ url_for('record') }}"><span class="mx-2">Record</span></a>
+          </li>
+          <li href="#" class="nav-link">
+              <i class="fa-solid fa-user"></i>
+              <a href="{{ url_for('change_password') }}"><span class="mx-2">Account</span></a>
           </li>
       </ul>
-    </div>
+      <ul class="nav flex-column text-white w-100">
+          <li href="#" class="nav-link">
+              <i class="fa-solid fa-sign-out"></i>
+              <form method="POST" action="/logout">
+                  <button type="submit" class="btn btn-primary btn-logout">
+                      Cerrar Sesion
+                  </button>
+              </form>
+          </li>
+      </ul>
+  </div>
 <main>
   <!-- Main Wrapper -->
   <div class="p-1 my-container active-cont">

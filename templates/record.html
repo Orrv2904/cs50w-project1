@@ -36,11 +36,11 @@
                 </a>
                 <li href="#" class="nav-link">
                     <i class="fa-solid fa-house"></i>
-                    <span class="mx-2">Home</span>
+                    <a href="{{ url_for('books') }}"><span class="mx-2">Home</span></a>
                 </li>
                 <li href="#" class="nav-link">
-                    <i class="fa-solid fa-search"></i>
-                    <span class="mx-2">Search a book</span>
+                    <i class="fas fa-history"></i>
+                    <a href="{{ url_for('record') }}"><span class="mx-2">Record</span></a>
                 </li>
                 <li href="#" class="nav-link">
                     <i class="fa-solid fa-user"></i>
