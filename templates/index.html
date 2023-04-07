@@ -178,7 +178,7 @@
       });
   
       $(document).on("click", ".search-result", function () {
-        var title = $(this).text();
+        var title = $(this).data("title");
         $("#search_input").val(title);
         $("#search_results").html("");
       });
@@ -192,10 +192,17 @@
           $("#search_results").html("<ul class='list-group'><li class='list-group-item'>No se encontraron resultados</li></ul>");
         } else {
           const results = $.map(data.slice(0, 10), function (book) {
-            return "<li class='list-group-item list-group-item-action search-result'>" + book.title + "</li>";
+            return "<li class='list-group-item list-group-item-action search-result' data-title='" + book.title + "'>" +
+              "<div class='row'>" +
+              "<div class='col-md-9'>" +
+              "<h6 class='mb-0'>" + book.title + "</h6>" +
+              "</div>" +
+              "</div>" +
+              "</li>";
           });
-  
-          $("#search_results").html("<ul class='list-group'>" + results.join("") + "</ul>");
+
+          $("#search_results").html("<ul class='list-group list-group-flush'>" + results.join("") + "</ul>");
+
         }
       });
     }
