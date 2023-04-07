@@ -429,3 +429,41 @@ def logout():
     session.clear()
     # Redirect user to login form
     return redirect("/")
+
+
+@app.route('/change_password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    if request.method == 'POST':
+        user_id = session['user_id']
+        old_password = request.form['old_password']
+        new_password = request.form['new_password']
+        confirm_password = request.form['confirm_password']
+
+        try:
+            user_query = text("SELECT * FROM users WHERE id = :user_id")
+            user = db.execute(user_query, {'user_id': user_id}).fetchone()
+
+            if not check_password_hash(user.password, old_password):
+                flash('La contraseña anterior es incorrecta.', 'error')
+                return redirect('/change_password')
+
+            if new_password != confirm_password:
+                flash('La nueva contraseña y la confirmación no coinciden.', 'error')
+                return redirect('/change_password')
+
+            new_password_hash = generate_password_hash(new_password)
+            update_query = text("UPDATE users SET password = :password WHERE id = :user_id")
+            db.execute(update_query, {'password': new_password_hash, 'user_id': user_id})
+            db.commit()
+
+            flash('La contraseña ha sido actualizada correctamente.', 'success')
+            return redirect('/profile')
+
+        except Exception as e:
+            db.rollback()
+            print('Error:', str(e))
+            abort(500)
+
+    else:
+        return render_template('change_password.html')
