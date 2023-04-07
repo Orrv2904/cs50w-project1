@@ -352,7 +352,7 @@ def register():
         rpassword = request.form.get("password")
         hashed_password = generate_password_hash(rpassword)
 
-        email_regex = r"^[a-zA-Z0-9._%+-]+@(gmail|outlook|yahoo)\.(com|edu|net)$"
+        email_regex = r"^[a-zA-Z0-9._%+-]+@(gmail|outlook|yahoo|Gmail|Outlook|Yahoo)\.(com|edu|net)$"
         if not re.match(email_regex, remail):
             flash("Ingrese un correo electrónico válido (Gmail, Outlook, Yahoo)", "info")
             return render_template("auth.html")
