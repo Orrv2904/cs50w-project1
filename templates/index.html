@@ -37,11 +37,11 @@
         </li>
         <li href="#" class="nav-link">
           <i class="fa-solid fa-search"></i>
-          <span class="mx-2">Search a book</span>
+          <a href="{{ url_for('record') }}"><span class="mx-2">Historial de Reviews</span></a>
         </li>
         <li href="#" class="nav-link">
           <i class="fa-solid fa-user"></i>
-          <a href=""><span class="mx-2">Account</span></a>
+          <a href="{{ url_for('change_password') }}"><span class="mx-2">Account</span></a>
         </li>
       </ul>
       <ul class="nav flex-column text-white w-100">

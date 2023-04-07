@@ -430,7 +430,6 @@ def logout():
     # Redirect user to login form
     return redirect("/")
 
-
 @app.route('/change_password', methods=['GET', 'POST'])
 @login_required
 def change_password():
@@ -452,18 +451,54 @@ def change_password():
                 flash('La nueva contraseña y la confirmación no coinciden.', 'error')
                 return redirect('/change_password')
 
+            password_error = validar_contraseña(new_password)
+            if password_error:
+                flash(password_error, 'error')
+                return redirect('/change_password')
+
             new_password_hash = generate_password_hash(new_password)
             update_query = text("UPDATE users SET password = :password WHERE id = :user_id")
             db.execute(update_query, {'password': new_password_hash, 'user_id': user_id})
             db.commit()
 
             flash('La contraseña ha sido actualizada correctamente.', 'success')
-            return redirect('/profile')
+            return redirect('/change_password')
 
         except Exception as e:
             db.rollback()
             print('Error:', str(e))
             abort(500)
 
-    else:
-        return render_template('change_password.html')
+    elif request.method == "GET":
+        try:
+            user_id = session["user_id"]
+            user_query = text("SELECT name, email, password FROM users WHERE id = :user_id")
+            user = db.execute(user_query, {'user_id': user_id}).fetchone()
+            user_name = user[0]
+            user_email = user[1]
+            user_password_hash = user[2]
+            db.commit()
+            return render_template("change_password.html", user_name=user_name, user_email=user_email)
+        except Exception as e:
+            db.rollback()
+            print("Error: ", str(e))
+            abort(404)
+
+@app.route('/record', methods=['GET'])
+@login_required
+def record():
+    if request.method == "GET":
+        try:
+            user_id = session["user_id"]
+            user_name_query = text("SELECT name FROM users WHERE id = :user_id")
+            user_name = db.execute(user_name_query, {"user_id": user_id}).fetchone()[0]
+            reviews_query = text("SELECT users.name, books.isbn, review.score, review.comment FROM review JOIN users ON review.user_id = users.id JOIN books ON review.isbn = books.isbn WHERE user_id = :user_id")
+            reviews = db.execute(reviews_query, {'user_id': user_id}).fetchall()
+            db.commit()
+            return render_template("record.html", reviews=reviews, user_name=user_name)
+        except Exception as e:
+            db.rollback()
+            print("Error: ", str(e))
+            abort(404)
+
+
