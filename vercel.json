@@ -3,8 +3,7 @@
   "builds": [
     {
       "src": "application.py",
-      "use": "@vercel/python",
-      "config": {}
+      "use": "@vercel/python"
     }
   ],
   "routes": [
@@ -30,12 +29,6 @@
         "your_module/*"
       ]
     }
-  },
-  "dev": {
-    "env": {
-      "PIP_ENVIRONMENT": "development"
-    },
-    "command": "pip install -r requirements.txt && flask run --port $PORT"
   },
   "start": "gunicorn application:app"
 }
