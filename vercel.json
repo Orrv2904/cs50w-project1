@@ -1,22 +1,41 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "use": "@vercel/python",
-        "entrypoint": "application:app",
-        "env": {
-          "PYTHONUNBUFFERED": "true",
-          "OVERRIDE_PIP_INSTALL": "true"
-        },
-        "buildCommand": "pip install -r requirements.txt && python -m compileall .",
-        "outputDirectory": ".",
-        "routes": [
-          {
-            "src": "/(.*)",
-            "dest": "/application.py"
-          }
-        ]
-      }
-    ]
-  }
-  
+  "version": 2,
+  "builds": [
+    {
+      "src": "application.py",
+      "use": "@vercel/python",
+      "config": {}
+    }
+  ],
+  "routes": [
+    {
+      "src": "/.*",
+      "dest": "/application.py"
+    }
+  ],
+  "env": {
+    "MY_VARIABLE": "value"
+  },
+  "build": {
+    "env": {
+      "PIP_ENVIRONMENT": "build"
+    },
+    "command": "pip install -r requirements.txt && python -m compileall .",
+    "output": {
+      "root": ".",
+      "include": [
+        "application.py",
+        "templates/*",
+        "static/*",
+        "your_module/*"
+      ]
+    }
+  },
+  "dev": {
+    "env": {
+      "PIP_ENVIRONMENT": "development"
+    },
+    "command": "pip install -r requirements.txt && flask run --port $PORT"
+  },
+  "start": "gunicorn application:app"
+}
