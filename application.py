@@ -1,12 +1,13 @@
 import os
 import re
 
-from flask import Flask, session, render_template, request, flash, redirect, url_for, jsonify, get_flashed_messages
+from flask import Flask, session, render_template, request, flash, redirect, url_for, jsonify, get_flashed_messages, current_app
 import requests
 from flask_session import Session
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import scoped_session, sessionmaker
+from authlib.integrations.flask_client import OAuth
 from dotenv import load_dotenv
 from flask import abort
 from psycopg2 import paramstyle
@@ -347,8 +348,8 @@ def validar_contraseña(password):
 @app.route('/register', methods=['POST'])
 def register():
     if request.method == 'POST':
-        rname = request.form.get("name")
-        remail = request.form.get("email")
+        rname = request.form.get("name").lower()
+        remail = request.form.get("email").lower()
         rpassword = request.form.get("password")
         hashed_password = generate_password_hash(rpassword)
 
@@ -420,6 +421,60 @@ def login():
         print("Error: ", str(e))
         abort(404)
 
+# oAuth Setup
+oauth = OAuth(app)
+
+
+google = oauth.register(
+    name="google",
+    client_id=os.environ.get("GOOGLE_CLIENT_ID"),
+    client_secret=os.environ.get("GOOGLE_CLIENT_SECRET"),
+    access_token_url="https://oauth2.googleapis.com/token",
+    access_token_params=None,
+    authorize_url="https://accounts.google.com/o/oauth2/v2/auth",
+    authorize_params={
+        "scope": "openid email profile",
+        "prompt": "select_account",
+        "hd": "your_domain.com",  # optional: restrict login to a specific domain
+        "redirect_uri": "http://localhost:5000/"  # your redirect URL
+    },
+    api_base_url="https://openidconnect.googleapis.com/",
+    client_kwargs={"scope": "openid email profile"}
+)
+
+
+@app.route('/google_login')
+def google_login():
+    redirect_uri = url_for('google_authorize', _external=True)
+    return google.authorize_redirect(redirect_uri)
+
+
+@app.route('/google_authorize')
+def google_authorize():
+    token = google.authorize_access_token()
+    user = google.parse_id_token(token)
+    email = user['email']
+    try:
+        verificar_correo = text("SELECT EXISTS(SELECT 1 FROM users WHERE email = :email)")
+        res = db.execute(verificar_correo, {"email" :email})
+        email_exists = res.fetchone()[0]
+
+        if email_exists:
+            flash("El correo electrónico ya existe", "error")
+            return redirect(url_for('Auth'))
+
+        agregar_usuario = text("INSERT INTO users (name, email) VALUES (:name, :email)")
+        db.execute(agregar_usuario, {"name" :user['name'], "email" :user['email']})
+        db.commit()
+
+        session['profile'] = user
+        session.permanent = True
+        return redirect('/')
+    except Exception as e:
+        db.rollback()
+        print("Error: ", str(e))
+        flash("Ha ocurrido un error", "error")
+        abort(404)
 
 @app.route("/logout", methods=['POST', 'GET'])
 @login_required

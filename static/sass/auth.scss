@@ -25,7 +25,7 @@ $trns: all 500ms;
 $mrg-top: 30px;
 $filter: grayscale(60%);
 
-*{
+* {
     margin: $cer;
     padding: $cer;
     box-sizing: $brdb;
@@ -33,7 +33,7 @@ $filter: grayscale(60%);
     font-family: $font1;
 }
 
-body{
+body {
     background-image: $bckimg;
     background-size: $imgtype;
     background-repeat: $nrpt;
@@ -41,21 +41,21 @@ body{
     background-attachment: $fix;
 }
 
-main{
+main {
     width: $wd;
     padding: $spacepd;
     margin: $aut;
     margin-top: $mgtp;
 }
 
-.contenedor__todo{
+.contenedor__todo {
     width: $wd;
     max-width: $mxwd;
     margin: $aut;
     position: $rlt;
 }
 
-.caja__trasera{
+.caja__trasera {
     width: $wd;
     padding: $dbpd;
     display: $flexin;
@@ -64,77 +64,84 @@ main{
     backdrop-filter: $blr;
     background-color: $box-bck-color;
     margin-top: $mgtp2;
-}
 
-.caja__trasera div{
-    margin: $mrg;
-    color: $wht;
-    transition: $trns;
-}
+    div {
+        margin: $mrg;
+        color: $wht;
+        transition: $trns;
 
-.caja__trasera div p,
-.caja__trasera button{
-    margin-top: $mrg-top;
-}
+        h3 {
+            font-weight: 400;
+            font-size: 26px;
+        }
 
-.caja__trasera div h3{
-    font-weight: 400;
-    font-size: 26px;
-}
+        p {
+            font-size: 16px;
+            font-weight: 300;
+        }
 
-.caja__trasera div p{
-    font-size: 16px;
-    font-weight: 300;
-}
+        & p,
+        & button {
+            margin-top: $mrg-top;
+        }
 
-.caja__trasera button{
-    padding: 10px 40px;
-    border: 2px solid #fff;
-    font-size: 14px;
-    background: transparent;
-    font-weight: 600;
-    cursor: pointer;
-    color: white;
-    outline: none;
-    transition: all 300ms;
-}
+        button {
+            padding: 10px 40px;
+            border: 2px solid #fff;
+            font-size: 14px;
+            background: transparent;
+            font-weight: 600;
+            cursor: pointer;
+            color: white;
+            outline: none;
+            transition: $trns;
 
-.caja__trasera button:hover{
-    background: #fff;
-    color: #46A2FD;
+            &:hover {
+                background: #fff;
+                color: #46A2FD;
+            }
+        }
+    }
 }
 
 /*Formularios*/
 
-.contenedor__login-register{
+$contenedor-width: 100%;
+$contenedor-max-width: 380px;
+$contenedor-top: -185px;
+$contenedor-left: 10px;
+
+.contenedor__login-register {
     display: flex;
     align-items: center;
-    width: 100%;
-    max-width: 380px;
+    width: $contenedor-width;
+    max-width: $contenedor-max-width;
     position: relative;
-    top: -185px;
-    left: 10px;
+    top: $contenedor-top;
+    left: $contenedor-left;
 
-    /*La transicion va despues del codigo JS*/
+    // /La transicion va despues del codigo JS/
     transition: left 500ms cubic-bezier(0.175, 0.885, 0.320, 1.275);
 }
 
-.contenedor__login-register form{
+$form-padding: 80px 20px;
+
+.contenedor__login-register form {
     width: 100%;
-    padding: 80px 20px;
+    padding: $form-padding;
     background: white;
     position: absolute;
     border-radius: 20px;
 }
 
-.contenedor__login-register form h2{
+.contenedor__login-register form h2 {
     font-size: 30px;
     text-align: center;
     margin-bottom: 20px;
     color: #46A2FD;
 }
 
-.contenedor__login-register form input{
+.contenedor__login-register form input {
     width: 100%;
     margin-top: 20px;
     padding: 10px;
@@ -144,7 +151,7 @@ main{
     outline: none;
 }
 
-.contenedor__login-register form button{
+.contenedor__login-register form button {
     padding: 10px 40px;
     margin-top: 40px;
     border: none;
@@ -159,30 +166,31 @@ main{
 
 
 
-.formulario__login{
+.formulario__login {
     opacity: 1;
     display: block;
 }
-.formulario__register{
+
+.formulario__register {
     display: none;
 }
 
 
 
-@media screen and (max-width: 850px){
+@media screen and (max-width: 850px) {
 
-    main{
+    main {
         margin-top: 50px;
     }
 
-    .caja__trasera{
+    .caja__trasera {
         max-width: 350px;
         height: 300px;
         flex-direction: column;
         margin: auto;
     }
 
-    .caja__trasera div{
+    .caja__trasera div {
         margin: 0px;
         position: absolute;
     }
@@ -190,13 +198,45 @@ main{
 
     /*Formularios*/
 
-    .contenedor__login-register{
+    .contenedor__login-register {
         top: -10px;
         left: -5px;
         margin: auto;
     }
 
-    .contenedor__login-register form{
+    .contenedor__login-register form {
         position: relative;
     }
+}
+
+.formulario__login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.google__login__btn {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 6px 12px;
+    margin-top: 16px;
+    text-decoration: none;
+    color: #444;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.2s ease-in-out;
+}
+
+.google__login__btn:hover {
+    background-color: #f1f1f1;
+    border-color: #c6c6c6;
+}
+
+.google__login__btn__logo {
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
 }

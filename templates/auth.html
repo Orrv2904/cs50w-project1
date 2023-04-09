@@ -48,6 +48,10 @@
                   <input type="email" placeholder="Correo Electronico" required name="email">
                   <input type="password" placeholder="Contraseña" required name="password">
                   <button onclick="correcto()">Regístrarse</button>
+                  <a href="{{ url_for('google_login') }}" class="google__login__btn">
+                    <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google Logo" class="google__login__btn__logo">
+                    Registrarse con Google
+                  </a>
               </form>
           </div>
       </div>
