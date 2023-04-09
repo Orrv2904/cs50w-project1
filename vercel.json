@@ -1,34 +1,9 @@
-{
-  "version": 2,
-  "builds": [
-    {
-      "src": "application.py",
-      "use": "@vercel/python"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/.*",
-      "dest": "/application.py"
-    }
-  ],
+"build": {
   "env": {
-    "MY_VARIABLE": "value"
+    "PIP_TARGET": "./python-packages",
+    "PIP_CACHE_DIR": "./pip-cache"
   },
-  "build": {
-    "env": {
-      "PIP_ENVIRONMENT": "build"
-    },
-    "command": "pip install -r requirements.txt && python -m compileall .",
-    "output": {
-      "root": ".",
-      "include": [
-        "application.py",
-        "templates/*",
-        "static/*",
-        "your_module/*"
-      ]
-    }
-  },
-  "start": "gunicorn application:app"
+  "command": "pip install -r requirements.txt",
+  "postinstall": "python -m compileall ."
 }
+
