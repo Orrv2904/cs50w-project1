@@ -1,19 +1,5 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "main.py",
-      "use": "@now/python"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/main.py"
-    }
-  ],
-  "build": {
-    "use": "@now/python",
-    "cmd": "pip install -r requirements.txt"
-  }
-} 
+  "rewrites": [
+    { "source": "/(.*)", "destination": "application.py" }
+  ]
+}
