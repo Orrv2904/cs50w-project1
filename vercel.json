@@ -1,9 +1,19 @@
-"build": {
-  "env": {
-    "PIP_TARGET": "./python-packages",
-    "PIP_CACHE_DIR": "./pip-cache"
-  },
-  "command": "pip install -r requirements.txt",
-  "postinstall": "python -m compileall ."
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "main.py",
+      "use": "@now/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/main.py"
+    }
+  ],
+  "build": {
+    "use": "@now/python",
+    "cmd": "pip install -r requirements.txt"
+  }
 }
-
