@@ -94,4 +94,10 @@ p.lead {
   border-color: #333;
   color: #fff;
   box-shadow: none;
+}
+
+@media screen and (max-width: 850px) {
+  .active-cont {
+    margin-left: 0px;
+  }
 }/*# sourceMappingURL=index.css.map */
