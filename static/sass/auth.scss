@@ -39,7 +39,24 @@ body {
     background-repeat: $nrpt;
     background-position: $cntpost;
     background-attachment: $fix;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+	height: 100vh;
 }
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
 
 main {
     width: $wd;
@@ -178,7 +195,6 @@ $form-padding: 80px 20px;
 
 
 @media screen and (max-width: 850px) {
-
     main {
         margin-top: 50px;
     }
@@ -195,9 +211,7 @@ $form-padding: 80px 20px;
         position: absolute;
     }
 
-
     /*Formularios*/
-
     .contenedor__login-register {
         top: -10px;
         left: -5px;
@@ -208,6 +222,7 @@ $form-padding: 80px 20px;
         position: relative;
     }
 }
+
 
 .formulario__login {
     display: flex;

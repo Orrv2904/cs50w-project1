@@ -77,8 +77,8 @@ def books():
             if not search_term:
                 flash("Por favor ingrese todos los campos", "info")
                 return redirect('/books')
-            book_query = text("SELECT * FROM books WHERE isbn = :search_term OR LOWER(title) LIKE LOWER(:search_term) OR LOWER(author) LIKE LOWER(:search_term) OR year = :search_term")
-            books = db.execute(book_query, {"search_term": f"%{search_term}%"}).fetchall()
+            book_query = text("SELECT * FROM books WHERE LOWER(isbn) = LOWER(:search_term) OR LOWER(title) LIKE LOWER(:search_term) OR LOWER(author) LIKE LOWER(:search_term) OR year = :search_term")
+            books = db.execute(book_query, {"search_term": search_term.lower()}).fetchall()
             if books:
                 for book in books:
                     api = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:" + book[1]).json()
@@ -120,6 +120,7 @@ def books():
 
 
 @app.route('/autocomplete')
+@login_required
 def autocomplete():
     search_term = request.args.get('search_term', '')
     search_term = search_term.title()
@@ -135,6 +136,7 @@ def autocomplete():
 
 
 @app.route('/review', methods=["GET", "POST"])
+@login_required
 def review():
     if request.method == "GET":
         return render_template("review.html")
@@ -147,6 +149,15 @@ def book_details(isbn):
         try:
             review_data_query = text("SELECT r.score, r.comment, u.name, AVG(r.score) as avg_score, COUNT(r.score) as review_count FROM review r JOIN users u ON r.user_id = u.id WHERE r.isbn = :isbn GROUP BY r.score, r.comment, u.name")
             review_data = db.execute(review_data_query, {"isbn": isbn}).fetchall()
+            review_data_query2 = text("""
+            SELECT AVG(r.score) as avg_score, COUNT(r.score) as review_count
+            FROM review r
+            WHERE r.isbn = :isbn
+            """)
+            review_data2 = db.execute(review_data_query2, {"isbn": isbn}).fetchone()
+            avg_score = review_data2.avg_score
+            review_count = review_data2.review_count
+
             api_url = f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}"
             api_response = requests.get(api_url)
             if api_response.status_code == 200:
@@ -167,7 +178,10 @@ def book_details(isbn):
                                        book_rating=book_rating,
                                        book_rating_count=book_rating_count,
                                        isbn=isbn,
-                                       review_data=review_data)
+                                       review_data=review_data,
+                                       review_data2=review_data2,
+                                       avg_score=avg_score,
+                                       review_count=review_count)
             else:
                 flash("El libro no fue encontrado", "error")
                 return redirect(url_for('index'))
@@ -261,31 +275,28 @@ def create_review():
 
 
 @app.route('/api/<isbn>')
-@login_required
 def get_book_info(isbn):
-    book_query = text("SELECT * FROM books WHERE isbn = :isbn")
-    book = db.execute(book_query, {"isbn": isbn}).fetchone()
+    book_query = text("""
+        SELECT b.author, b.title, b.year, b.isbn, AVG(r.score) AS average_score, COUNT(r.id) AS review_count
+        FROM books AS b
+        LEFT JOIN review AS r ON b.isbn = r.isbn
+        WHERE b.isbn = :isbn
+        GROUP BY b.author, b.title, b.year, b.isbn
+    """)
+    book_result = db.execute(book_query, {"isbn": isbn}).fetchone()
 
-    if book is not None:
-        response = requests.get(f'https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}')
-        data = response.json()
-
-        book_info = data['items'][0]['volumeInfo']
-        title = book_info.get('title', '')
-        authors = ', '.join(book_info.get('authors', []))
-        published_date = book_info.get('publishedDate', '')
-        isbn_10 = ''
-        for identifier in book_info.get('industryIdentifiers', []):
-            if identifier.get('type', '') == 'ISBN_10':
-                isbn_10 = identifier.get('identifier', '')
-                break
-        review_count = book_info.get('ratingsCount', 0)
-        average_score = book_info.get('averageRating', 0)
+    if book_result is not None:
+        author = book_result[0]
+        title = book_result[1]
+        year = book_result[2]
+        isbn_10 = book_result[3]
+        review_count = book_result[5]
+        average_score = round(book_result[4], 2)
 
         response_data = {
             'title': title,
-            'author': authors,
-            'year': published_date,
+            'author': author,
+            'year': year,
             'isbn': isbn_10,
             'review_count': review_count,
             'average_score': average_score
@@ -298,6 +309,8 @@ def get_book_info(isbn):
         }
 
         return jsonify(response_data), 404
+
+
 
 
 
@@ -422,6 +435,7 @@ def login():
         abort(404)
 
 # oAuth Setup
+# This only works on deploy
 oauth = OAuth(app)
 
 
@@ -436,7 +450,7 @@ google = oauth.register(
         "scope": "openid email profile",
         "prompt": "select_account",
         "hd": "your_domain.com",  # optional: restrict login to a specific domain
-        "redirect_uri": "http://localhost:5000/"  # your redirect URL
+        "redirect_uri": "https://books-ffiv.onrender.com/"  # your redirect URL
     },
     api_base_url="https://openidconnect.googleapis.com/",
     client_kwargs={"scope": "openid email profile"}

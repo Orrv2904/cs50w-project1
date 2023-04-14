@@ -92,6 +92,7 @@
         <p class="fw-light mb-3">ISBN: {{ isbn }}</p>
         <p class="fw-light mb-3">Descripción del libro: {{ book_description }}</p>     
         <div class="rating">
+          <span class="mx-2">Data API</span>
           {% for i in range(1, 6) %}
               {% if book_rating >= i %}
                 <i class="fas fa-star"></i>
@@ -101,7 +102,21 @@
           {% endfor %}
           <span class="mx-2">{{ book_rating }}/5.0</span>
           <span class="mx-2">({{ book_rating_count }} reseñas)</span>
-        </div>                  
+        </div>  
+        <div class="rating">
+          <span class="mx-2">Data DB</span>
+          {% for i in range(1, 6) %}
+              {% if avg_score >= i %}
+                  <i class="fas fa-star"></i>
+              {% else %}
+                  <i class="far fa-star"></i>
+              {% endif %}
+          {% endfor %}
+          <span class="mx-2">{{ avg_score|round(1) }}/5.0</span>
+          <span class="mx-2">({{ review_count }} reseñas)</span>
+      </div>
+      
+         
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
           Añadir reseña
         </button>
