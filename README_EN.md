@@ -48,7 +48,7 @@ Table of Contents
 
 <input type="hidden" id="como_funciona" value="">
 
-## ¿Comó Funciona?
+## How does it work?
 
 It works as follows:
 
@@ -89,7 +89,7 @@ Where it will return information of the <b>ISBN</b> you are searching for, showi
 
 <input type="hidden" id="instalacion" value="">
 
-## Instalación:
+## Installation:
 
 * In order to run the application you will need to have an IDE installed, I recommend you to use Visual Studio Code since this is the IDE in which the application was created. You can download it here: [VS Code](https://code.visualstudio.com/docs/?dv=win).
 Afterwards, you will have to clone or download our repository. You can do it with this command:
@@ -136,7 +136,7 @@ Once this connection string is obtained, you must paste it in the <b>DATABASE_UR
 
 <input type="hidden" id="ejecucion" value="">
 
-## Ejecución:
+## Execution:
 
 To run the application, you must execute the following command:
  * ```Flask Run``` which will open the application on a port on your computer, usually <b>5000</b>. You can access it through your web browser by typing the following address ```http://localhost:5000/```
