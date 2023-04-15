@@ -77,8 +77,8 @@ def books():
             if not search_term:
                 flash("Por favor ingrese todos los campos", "info")
                 return redirect('/books')
-            book_query = text("SELECT * FROM books WHERE LOWER(isbn) = LOWER(:search_term) OR LOWER(title) LIKE LOWER(:search_term) OR LOWER(author) LIKE LOWER(:search_term) OR year = :search_term")
-            books = db.execute(book_query, {"search_term": search_term.lower()}).fetchall()
+            book_query = text("SELECT * FROM books WHERE LOWER(isbn) LIKE LOWER(:search_term) OR LOWER(title) LIKE LOWER(:search_term) OR LOWER(author) LIKE LOWER(:search_term) OR year LIKE :search_term")
+            books = db.execute(book_query, {"search_term": f"%{search_term.lower()}%"}).fetchall()
             if books:
                 for book in books:
                     api = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:" + book[1]).json()
