@@ -16,7 +16,7 @@ Table of Contents
 
 <input type="hidden" id="tecnologias" value="">
 
-## Tecnologías que se usaron:
+## Technologies used:
 
 <p align="center">
   <img src="http://ForTheBadge.com/images/badges/made-with-python.svg">
