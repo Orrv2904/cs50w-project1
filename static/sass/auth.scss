@@ -255,3 +255,241 @@ $form-padding: 80px 20px;
     height: 24px;
     margin-right: 12px;
 }
+
+@media (max-width: 850px) {
+    .contenedor__login-register {
+      display: none;
+    }
+    .contenedor__todo{
+        display: none;
+    }
+  }
+  
+  @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
+* {outline-width: 0;  font-family: 'Roboto';}
+
+$main: #009688;
+$second: #00796B;
+$third: #00695C;
+
+
+#formContainer {
+   width: 300px;
+   background: #fff;
+   margin: 50px auto;
+   box-shadow: 2px 2px 7px rgba(0,0,0,0.1);
+   border-radius: 3px;
+   position: relative;
+   overflow: hidden;
+   height: 322px;
+   transition: 0.3s ease;
+   form {
+      background: #fff;
+      padding: 15px;
+      box-sizing: border-box;
+      border-radius: 3px;
+   }
+   &.toggle {
+      height: 332px;
+   }
+}
+#switch {
+   position: absolute;
+   top: 15px;
+   right: 15px;
+   width: 36px;
+   height: 36px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   border-radius: 50%;
+   cursor: pointer;
+   background: $main;
+   z-index: 2;
+   transition: 0.3s ease;
+   .bar {
+      width: 16px;
+      height: 2px;
+      background: #fff;
+      &:before {
+         content: "";
+         background: #fff;
+         width: 16px;
+         height: 2px;
+         position: absolute;
+         display: flex;
+         transform: rotate(90deg);
+      }
+   }
+   &:hover {
+      background: $second;
+   }
+   &.toggle {
+      transform: rotate(45deg);
+   }
+}
+.formHeader {
+   padding-bottom: 25px;
+   h1 {
+      margin: 0;
+      font-weight: 400;
+      font-size: 24px;
+      text-transform: uppercase;
+   }
+}
+.formDiv {
+   margin-bottom: 15px;
+   width: 100%;
+   position: relative;
+   border-radius: 3px;
+   overflow: hidden;
+   &:last-child {
+      margin-bottom: 0;
+   }
+   input[type="text"], input[type="password"], input[type="email"] {
+      background: #f4f4f4;
+      border: none;
+      padding: 10px;
+      box-sizing: border-box;
+      width: 100%;
+      text-indent: 42px;
+      color: #444;
+    position: relative;
+   }
+   .inputImage {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: #ddd;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #777;
+      user-select: none;
+   }
+   input[type="submit"] {
+      width: 100%;
+      box-sizing: border-box;
+      background: $main;
+      border: none;
+      color: #fff;
+      font-size: 14px;
+      padding: 10px 0;
+      border-radius: 3px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s ease;
+      &:hover {
+         background: $second;
+      }
+   }
+}
+#remember {
+   display: flex;
+   align-items: center;
+   width: 150px;
+   cursor: pointer;
+   input[type="checkbox"] {
+      display: none;
+      &:checked ~ .checkbox {
+         background: $main;
+         &:before {
+            transform: translate(-50%, -50%) rotate(-45deg) scale(1,1);
+         }
+      }
+   }
+   .checkbox {
+      height: 21px;
+      width: 21px;
+      background: #eee;
+      display: inline-block;
+      border-radius: 3px;
+      position: relative;
+      transition: 0.3s ease;
+      &:before {
+         content: "";
+         display: block;
+         position: absolute;
+         top: 42%;
+         left: 50%;
+         width: 12px;
+         height: 5px;
+         border-bottom: 2px solid #fff;
+         border-left: 2px solid #fff;
+         transform: translate(-50%, -50%) rotate(-45deg) scale(0,0);
+         transition: 0.3s ease
+      }
+   }
+   span {
+      display: inline-block;
+      padding-left: 10px;
+      user-select: none;
+   }
+}
+.formFooter {
+   border-top: 1px solid #ddd;
+   padding-top: 15px;
+   width: 100%;
+   a {
+      display: block;
+      text-decoration: none;
+      background: #ddd;
+      color: #222;
+      width: 100%;
+      box-sizing: border-box;
+      width: 100%;
+      padding: 7px 0;
+      text-align: center;
+      border-radius: 3px;
+      font-size: 14px;
+      transition: 0.3s ease;
+      &:hover {
+         background: #ccc;
+      }
+   }
+}
+#login {
+   transition: 0.3s ease;
+   opacity: 1;
+   transform: scale(1,1);
+   &.toggle {
+      opacity: .3;
+      transform: scale(0.9, 0.9);
+   }
+}
+#register {
+   background: $main !important;
+   position: absolute;
+   top: 100%;
+   width: 100%;
+   transition: 0.3s ease;
+   input[type="email"], input[type="text"], input[type="password"] {
+      background: $second;
+      color: #eee;
+   }
+   .inputImage {
+      background: $third;
+      color: #fff;
+   }
+   h1 {
+      color: #fff;
+   }
+   &.toggle {
+      top: 0;
+   }
+}
+
+@media (min-width: 850px) {
+   #formContainer {
+     display: none;
+   }
+ }
+
+
+ @media (max-width: 849px) {
+   #formContainer {
+     display: block;
+   }
+ }

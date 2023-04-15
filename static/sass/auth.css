@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700");
 * {
   margin: 0;
   padding: 0;
@@ -197,4 +198,247 @@ main {
   width: 24px;
   height: 24px;
   margin-right: 12px;
+}
+
+@media (max-width: 850px) {
+  .contenedor__login-register {
+    display: none;
+  }
+  .contenedor__todo {
+    display: none;
+  }
+}
+* {
+  outline-width: 0;
+  font-family: "Roboto";
+}
+
+#formContainer {
+  width: 300px;
+  background: #fff;
+  margin: 50px auto;
+  box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  position: relative;
+  overflow: hidden;
+  height: 322px;
+  transition: 0.3s ease;
+}
+#formContainer form {
+  background: #fff;
+  padding: 15px;
+  box-sizing: border-box;
+  border-radius: 3px;
+}
+#formContainer.toggle {
+  height: 332px;
+}
+
+#switch {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+  background: #009688;
+  z-index: 2;
+  transition: 0.3s ease;
+}
+#switch .bar {
+  width: 16px;
+  height: 2px;
+  background: #fff;
+}
+#switch .bar:before {
+  content: "";
+  background: #fff;
+  width: 16px;
+  height: 2px;
+  position: absolute;
+  display: flex;
+  transform: rotate(90deg);
+}
+#switch:hover {
+  background: #00796B;
+}
+#switch.toggle {
+  transform: rotate(45deg);
+}
+
+.formHeader {
+  padding-bottom: 25px;
+}
+.formHeader h1 {
+  margin: 0;
+  font-weight: 400;
+  font-size: 24px;
+  text-transform: uppercase;
+}
+
+.formDiv {
+  margin-bottom: 15px;
+  width: 100%;
+  position: relative;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.formDiv:last-child {
+  margin-bottom: 0;
+}
+.formDiv input[type=text], .formDiv input[type=password], .formDiv input[type=email] {
+  background: #f4f4f4;
+  border: none;
+  padding: 10px;
+  box-sizing: border-box;
+  width: 100%;
+  text-indent: 42px;
+  color: #444;
+  position: relative;
+}
+.formDiv .inputImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #ddd;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #777;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+.formDiv input[type=submit] {
+  width: 100%;
+  box-sizing: border-box;
+  background: #009688;
+  border: none;
+  color: #fff;
+  font-size: 14px;
+  padding: 10px 0;
+  border-radius: 3px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s ease;
+}
+.formDiv input[type=submit]:hover {
+  background: #00796B;
+}
+
+#remember {
+  display: flex;
+  align-items: center;
+  width: 150px;
+  cursor: pointer;
+}
+#remember input[type=checkbox] {
+  display: none;
+}
+#remember input[type=checkbox]:checked ~ .checkbox {
+  background: #009688;
+}
+#remember input[type=checkbox]:checked ~ .checkbox:before {
+  transform: translate(-50%, -50%) rotate(-45deg) scale(1, 1);
+}
+#remember .checkbox {
+  height: 21px;
+  width: 21px;
+  background: #eee;
+  display: inline-block;
+  border-radius: 3px;
+  position: relative;
+  transition: 0.3s ease;
+}
+#remember .checkbox:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  width: 12px;
+  height: 5px;
+  border-bottom: 2px solid #fff;
+  border-left: 2px solid #fff;
+  transform: translate(-50%, -50%) rotate(-45deg) scale(0, 0);
+  transition: 0.3s ease;
+}
+#remember span {
+  display: inline-block;
+  padding-left: 10px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+.formFooter {
+  border-top: 1px solid #ddd;
+  padding-top: 15px;
+  width: 100%;
+}
+.formFooter a {
+  display: block;
+  text-decoration: none;
+  background: #ddd;
+  color: #222;
+  width: 100%;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 7px 0;
+  text-align: center;
+  border-radius: 3px;
+  font-size: 14px;
+  transition: 0.3s ease;
+}
+.formFooter a:hover {
+  background: #ccc;
+}
+
+#login {
+  transition: 0.3s ease;
+  opacity: 1;
+  transform: scale(1, 1);
+}
+#login.toggle {
+  opacity: 0.3;
+  transform: scale(0.9, 0.9);
+}
+
+#register {
+  background: #009688 !important;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  transition: 0.3s ease;
+}
+#register input[type=email], #register input[type=text], #register input[type=password] {
+  background: #00796B;
+  color: #eee;
+}
+#register .inputImage {
+  background: #00695C;
+  color: #fff;
+}
+#register h1 {
+  color: #fff;
+}
+#register.toggle {
+  top: 0;
+}
+
+@media (min-width: 850px) {
+  #formContainer {
+    display: none;
+  }
+}
+@media (max-width: 849px) {
+  #formContainer {
+    display: block;
+  }
 }/*# sourceMappingURL=auth.css.map */
