@@ -155,8 +155,56 @@ def book_details(isbn):
             WHERE r.isbn = :isbn
             """)
             review_data2 = db.execute(review_data_query2, {"isbn": isbn}).fetchone()
-            avg_score = review_data2.avg_score
-            review_count = review_data2.review_count
+            avg_score = review_data2.avg_score or 0
+            review_count = review_data2.review_count or 0
+
+
+
+            api_url = f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}"
+            api_response = requests.get(api_url)
+            if api_response.status_code == 200:
+                book_info = api_response.json()["items"][0]["volumeInfo"]
+                book_description = book_info.get("description", "Descripción no disponible.")
+                book_img = book_info.get("imageLinks", {}).get("thumbnail", "/static/images/128x196.png")
+                book_title = book_info.get("title", "Título no disponible.")
+                book_author = book_info.get("authors", ["Autor no disponible."])[0]
+                book_year = book_info.get("publishedDate", "Año de publicación no disponible.")
+                book_rating = book_info.get("averageRating", 0)
+                book_rating_count = book_info.get("ratingsCount", 0)
+                return render_template("review.html",
+                       book_title=book_title,
+                       book_author=book_author,
+                       book_year=book_year,
+                       book_description=book_description,
+                       book_img=book_img,
+                       book_rating=book_rating,
+                       book_rating_count=book_rating_count,
+                       isbn=isbn,
+                       review_data=review_data,
+                       review_data2=review_data2,
+                       avg_score=avg_score,
+                       review_count=review_count)
+            else:
+                flash("El libro no fue encontrado", "error")
+                return redirect(url_for('index'))
+        except Exception as e:
+            print("Error: ", str(e))
+            flash("Ocurrió un error al procesar su solicitud. Por favor inténtelo de nuevo más tarde.", "error")
+            return redirect(url_for('index'))
+    else:
+        # return render_template("review.html")
+        print("prueba")
+        try:
+            review_data_query = text("SELECT r.score, r.comment, u.name, AVG(r.score) as avg_score, COUNT(r.score) as review_count FROM review r JOIN users u ON r.user_id = u.id WHERE r.isbn = :isbn GROUP BY r.score, r.comment, u.name")
+            review_data = db.execute(review_data_query, {"isbn": isbn}).fetchall()
+            review_data_query2 = text("""
+            SELECT AVG(r.score) as avg_score, COUNT(r.score) as review_count
+            FROM review r
+            WHERE r.isbn = :isbn
+            """)
+            review_data2 = db.execute(review_data_query2, {"isbn": isbn}).fetchone()
+            avg_score = review_data2.avg_score or 0
+            review_count = review_data2.review_count or 0
 
             api_url = f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}"
             api_response = requests.get(api_url)
@@ -182,41 +230,6 @@ def book_details(isbn):
                                        review_data2=review_data2,
                                        avg_score=avg_score,
                                        review_count=review_count)
-            else:
-                flash("El libro no fue encontrado", "error")
-                return redirect(url_for('index'))
-        except Exception as e:
-            print("Error: ", str(e))
-            flash("Ocurrió un error al procesar su solicitud. Por favor inténtelo de nuevo más tarde.", "error")
-            return redirect(url_for('index'))
-    else:
-        # return render_template("review.html")
-        print("prueba")
-        try:
-            review_data_query = text("SELECT r.score, r.comment, u.name, AVG(r.score) as avg_score, COUNT(r.score) as review_count FROM review r JOIN users u ON r.user_id = u.id WHERE r.isbn = :isbn GROUP BY r.score, r.comment, u.name")
-            review_data = db.execute(review_data_query, {"isbn": isbn}).fetchall()
-            
-            api_url = f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}"
-            api_response = requests.get(api_url)
-            if api_response.status_code == 200:
-                book_info = api_response.json()["items"][0]["volumeInfo"]
-                book_description = book_info.get("description", "Descripción no disponible.")
-                book_img = book_info.get("imageLinks", {}).get("thumbnail", "/static/images/128x196.png")
-                book_title = book_info.get("title", "Título no disponible.")
-                book_author = book_info.get("authors", ["Autor no disponible."])[0]
-                book_year = book_info.get("publishedDate", "Año de publicación no disponible.")
-                book_rating = book_info.get("averageRating", 0)
-                book_rating_count = book_info.get("ratingsCount", 0)
-                return render_template("review.html",
-                                       book_title=book_title,
-                                       book_author=book_author,
-                                       book_year=book_year,
-                                       book_description=book_description,
-                                       book_img=book_img,
-                                       book_rating=book_rating,
-                                       book_rating_count=book_rating_count,
-                                       isbn=isbn,
-                                       review_data=review_data)
             else:
                 flash("El libro no fue encontrado", "error")
                 return redirect(url_for('index'))

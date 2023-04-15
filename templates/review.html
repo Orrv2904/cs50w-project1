@@ -106,15 +106,16 @@
         <div class="rating">
           <span class="mx-2">Data DB</span>
           {% for i in range(1, 6) %}
-              {% if avg_score >= i %}
-                  <i class="fas fa-star"></i>
-              {% else %}
-                  <i class="far fa-star"></i>
-              {% endif %}
+            {% if avg_score >= i %}
+              <i class="fas fa-star"></i>
+            {% else %}
+              <i class="far fa-star"></i>
+            {% endif %}
           {% endfor %}
           <span class="mx-2">{{ avg_score|round(1) }}/5.0</span>
           <span class="mx-2">({{ review_count }} reseñas)</span>
-      </div>
+        </div>
+        
       
          
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
