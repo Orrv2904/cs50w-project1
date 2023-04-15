@@ -304,7 +304,11 @@ def get_book_info(isbn):
         year = book_result[2]
         isbn_10 = book_result[3]
         review_count = book_result[5]
-        average_score = round(book_result[4], 2)
+
+        if book_result[4] is not None:
+            average_score = round(book_result[4], 2)
+        else:
+            average_score = None
 
         response_data = {
             'title': title,
@@ -322,6 +326,7 @@ def get_book_info(isbn):
         }
 
         return jsonify(response_data), 404
+
 
 
 
